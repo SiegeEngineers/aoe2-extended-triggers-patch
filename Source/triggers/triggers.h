@@ -17,6 +17,8 @@ typedef enum VARIABLE_TYPE {
 	GAME_TIME_HMS
 } VARIABLE_TYPE;
 
+void __stdcall Init(HINSTANCE hinstDLL);
+
 extern "C" __declspec(dllexport)
 void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWORD* varPointer);
 

@@ -5,7 +5,6 @@ char const exeExtension[] = ".exe";
 char const backupExtension[] = ".tbak";
 
 char const trigDllPath[] = "age2_x1\\triggers.dll";
-char const auxDllPath[] = "age2_x1\\triggers_aux.dll";
 
 __int32 const patchOffsets[PATCH_AMOUNT] = { 0x002B06F3, 0x00228895, 0x002B082F, 0x00228880, 0x00280FFE };
 __int32 const patchSizes[PATCH_AMOUNT] = { 0x35, 0x22, 0x05, 0x15, 0x01 };
@@ -114,17 +113,6 @@ bool patchExe(char *inputName, char *outputName) {
             else {
                 saveResourceToFile(trigDll, 201);
                 fclose(trigDll);
-            }
-            
-            FILE *auxDll = fopen(auxDllPath, "w+b");
-            
-            if (!auxDll) {
-                printf("\nNote: language_triggers.dll could not be extracted\n");
-                printf("You might need to download and place it in the age2_x1 folder manually\n");
-            }
-            else {
-                saveResourceToFile(auxDll, 202);
-                fclose(auxDll);
             }
             
         }
@@ -288,13 +276,6 @@ void patchExeSilent(char *inputName, char *outputName) {
             if (trigDll) {
                 saveResourceToFile(trigDll, 201);
                 fclose(trigDll);
-            }
-            
-            FILE *auxDll = fopen(auxDllPath, "w+b");
-            
-            if (auxDll) {
-                saveResourceToFile(auxDll, 202);
-                fclose(auxDll);
             }
         }
         

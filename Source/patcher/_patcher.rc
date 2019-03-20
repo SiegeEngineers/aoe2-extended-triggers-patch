@@ -1,5 +1,4 @@
 201 BIN "triggers.dll"
-202 BIN "triggers_aux.dll"
 
 301 ICON "icon.ico"
 

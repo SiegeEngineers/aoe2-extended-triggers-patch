@@ -1,5 +1,8 @@
-format PE GUI 4.0 DLL at 0x00400000 as 'dll'
-entry DllEntryPoint
+format ELF
+
+extrn '__imp__WriteProcessMemory@20' as WriteProcessMemory:dword
+extrn '__imp__GetCurrentProcess@0' as GetCurrentProcess:dword
+extrn '_stringParser' as stringParser:dword
 
 ;==================================================
 ; Includes
@@ -15,60 +18,27 @@ struc db [data]
 }
 
 ;==================================================
-section '.text' code readable executable
+section '.text' executable
 ;==================================================
 
-proc DllEntryPoint hinstDLL,fdwReason,lpvReserved
+public __Z4InitP11HINSTANCE__@4
 
-	mov	eax,dword[fdwReason]
-	dec	eax
-	jz	.DllMain
-	push	TRUE
-	pop	eax
-	jmp	.end
-	.DllMain:
-	stdcall DllMain,dword[hinstDLL],1,dword[lpvReserved]
-	.end:
-	ret
-endp
-
-proc DllMain hinstDLL,fdwReason,lpvReserved
-
+proc __Z4InitP11HINSTANCE__@4 hinstDLL
 	push	esi edi
-	invoke	GetCurrentProcess
+	call [GetCurrentProcess]
 	mov	esi,eax
 	mov	edi,1
     
     mov eax,dword[hinstDLL]
     mov dword[_langHandle],eax
     
-    stdcall GetModuleDirectoryA,dword[hinstDLL],_trigDir,MAX_PATH
-	test	eax,eax
-	jz	.end
-	mov	ecx,eax
-	xor	eax,eax
-	cmp	ecx,MAX_PATH-sizeof._trigDll
-	ja	.end
-	add	ecx,_trigDir
-	ccall	memcpy,ecx,_trigDll,sizeof._trigDll
-    
-    invoke LoadLibrary,_trigDir
-    test eax,eax
-    jne .init_res
-    invoke	MessageBoxA,0,_msg2,_cap,MB_ICONERROR ;00635334
-	invoke	ExitProcess ;635278
-    
-    .init_res:
-    invoke GetProcAddress,eax,_funcname1
-    mov dword[_stringParser],eax
-    
-    stdcall PatchAddress,esi,sub_stringParser,dword[_stringParser],1
+    stdcall PatchAddress,esi,sub_stringParser,stringParser,1
     and	edi,eax
     
-    stdcall PatchAddress,esi,sub_stringParser_1,dword[_stringParser],1
+    stdcall PatchAddress,esi,sub_stringParser_1,stringParser,1
     and	edi,eax
     
-    stdcall PatchAddress,esi,sub_stringParser_2,dword[_stringParser],1
+    stdcall PatchAddress,esi,sub_stringParser_2,stringParser,1
     and	edi,eax
     
     ;------------------------------- TRIGGERS -------------------------------
@@ -765,7 +735,6 @@ proc DllMain hinstDLL,fdwReason,lpvReserved
     
     .end:
 	ret
-	
 endp
 
 EffectAlloc:
@@ -3913,43 +3882,6 @@ load_str:
      
 ;--------------------------------------------------
 
-proc GetModuleDirectoryA hModule,lpFilename,nSize
-
-	push	ebx
-	mov	ebx,dword[lpFilename]
-	stdcall GetModulePathA,dword[hModule],ebx,dword[nSize]
-	test	eax,eax
-	jz	.end
-	ccall	strrchr,ebx,'\'
-	test	eax,eax
-	jz	.end
-	and	byte[eax],0
-	sub	eax,ebx
-	.end:
-	pop	ebx
-	ret
-endp
-
-proc GetModulePathA hModule,lpFilename,nSize
-
-	push	esi edi
-	xor	eax,eax
-	mov	esi,dword[nSize]
-	cmp	esi,eax
-	je	.end
-	mov	edi,dword[lpFilename]
-	invoke	GetModuleFileName,dword[hModule],edi,esi
-	lea	ecx,[eax-1]
-	dec	esi
-	cmp	ecx,esi
-	sbb	edx,edx
-	and	eax,edx
-	and	byte[edi],dl
-	.end:
-	pop	edi esi
-	ret
-endp
-
 proc memcpy c destination,source,num
 
 	mov	ecx,dword[num]
@@ -4045,37 +3977,15 @@ endp
 
 proc PatchData hProcess,lpBaseAddress,lpBuffer,nSize
 
-	invoke	WriteProcessMemory,dword[hProcess],dword[lpBaseAddress],dword[lpBuffer],dword[nSize],0
+	stdcall [WriteProcessMemory],dword[hProcess],dword[lpBaseAddress],dword[lpBuffer],dword[nSize],0
 	test	eax,eax
 	setnz	cl
 	movzx	eax,cl
 	ret
 endp
-	
-;==================================================
-section '.idata' import data readable
-;==================================================
-
-library advapi32,'ADVAPI32.DLL',\
-	comctl32,'COMCTL32.DLL',\
-	comdlg32,'COMDLG32.DLL',\
-	gdi32,'GDI32.DLL',\
-	kernel32,'KERNEL32.DLL',\
-	shell32,'SHELL32.DLL',\
-	user32,'USER32.DLL',\
-	wsock32,'WSOCK32.DLL'
-
-include 'api\advapi32.inc'
-include 'api\comctl32.inc'
-include 'api\comdlg32.inc'
-include 'api\gdi32.inc'
-include 'api\kernel32.inc'
-include 'api\shell32.inc'
-include 'api\user32.inc'
-include 'api\wsock32.inc'
 
 ;==================================================
-section '.data' data readable writeable
+section '.data'
 ;==================================================
 
 _cap                                db 'Error',0
@@ -4132,8 +4042,6 @@ _trigDll db '\triggers_aux.dll',0
 
 _funcname1 db 'stringParser',0
 
-_stringParser rb 4
-
 _trigDir rb MAX_PATH
 _langHandle dd 0
 
@@ -4155,216 +4063,3 @@ FileVer rb 4
 VarFileVer dd 1.10
 
 SpeedDivider dd 10.00
- 
-;==================================================
-section '.rsrc' resource readable
-;==================================================
-
-directory RT_VERSION,versions,\
-    RT_STRING,strings
-
-resource versions,\
-    1,LANG_NEUTRAL,version
-versioninfo version,VOS__WINDOWS32,VFT_APP,VFT2_UNKNOWN,LANG_ENGLISH+SUBLANG_DEFAULT,0,\
-	'FileDescription','Extended Triggers Patch Main Library',\
-	'FileVersion','1.6',\
-    'ProductName', 'Extended Triggers Patch',\
-	'ProductVersion','2019.03.11',\
-	'OriginalFilename','TRIGGERS.DLL'
-    
-    
-;directory 
-
-;--------------------------------------------------
-
-resource strings,\
-		 127,1033,string_127,\
-         196,1033,string_196,\
-         675,1033,string_675,\
-		 3400,1033,string_3400,\
-         3401,1033,string_3401,\
-         3600,1033,string_3600,\
-         3601,1033,string_3601,\
-         3602,1033,string_3602,\
-         3603,1033,string_3603
-
-;--------------------------------------------------
-
-resdata string_127
-    du 0
-    du 0
-    du 0
-    du 0
-    du 40,'Error: File %s.bpvar could not be loaded'
-    du 59,'Error: File %s.bpvar contains more variables than supported'
-    du 55,'Error: File %s.bpvar belongs to an incompatible version'
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-endres
-
-resdata string_196
-    du 0
-    du 0
-    du 0
-    du 18,'Time Limit Victory'
-    du 13,'Score Victory'
-    du 18,'Starting Resources'
-    du 27,'Select a game lobby setting'
-    du 8,'Disabled'
-    du 13,'Not Available'
-    du 9,'Available'
-    du 11,'Researching'
-    du 10,'Researched'
-    du 25,'Select a technology state'
-    du 11,'Variable ID'
-    du 15,'Civilization ID'
-    du 0
-endres
-
-resdata string_675
-    du 0
-    du 0
-    du 0
-    du 4,'Mode'
-    du 3,'Set'
-    du 3,'Add'
-    du 8,'Multiply'
-    du 31,'Select the variable change mode'
-    du 24,'Set Resource by Variable'
-    du 24,'Add Variable to Resource'
-    du 31,'Subtract Variable from Resource'
-    du 29,'Multiply Resource by Variable'
-    du 24,'Set Variable by Resource'
-    du 24,'Add Resource to Variable'
-    du 31,'Subtract Resource from Variable'
-    du 29,'Multiply Variable by Resource'
-endres
-
-resdata string_3400
-    du 4,'None'
-    du 20,'Bring Object to Area'
-    du 22,'Bring Object to Object'
-    du 11,'Own Objects'
-    du 17,'Own Fewer Objects'
-    du 15,'Objects in Area'
-    du 14,'Destroy Object'
-    du 14,'Capture Object'
-    du 20,'Accumulate Attribute'
-    du 19,'Research Technology'
-    du 5,'Timer'
-    du 15,'Object Selected'
-    du 9,'AI Signal'
-    du 15,'Player Defeated'
-    du 17,'Object Has Target'
-    du 14,'Object Visible'
-endres
-
-resdata string_3401
-    du 18,'Object Not Visible'
-    du 16,'Researching Tech'
-    du 16,'Units Garrisoned'
-    du 16,'Difficulty Level'
-    du 12,'Civilization'
-    du 6,'Chance'
-    du 21,'Own Fewer Foundations'
-    du 16,'Own Fewer Rubble'
-    du 12,'Room Setting'
-    du 14,'Trigger Active'
-    du 15,'Computer Player'
-    du 14,'Variable Value'
-    du 25,'Variable Value Lower Than'
-    du 16,'Technology State'
-    du 0
-    du 0
-endres
-
-resdata string_3600
-    du 4,'None'
-    du 16,'Change Diplomacy'
-    du 19,'Research Technology'
-    du 9,'Send Chat'
-    du 10,'Play Sound'
-    du 7,'Tribute'
-    du 11,'Unlock Gate'
-    du 9,'Lock Gate'
-    du 16,'Activate Trigger'
-    du 18,'Deactivate Trigger'
-    du 14,'AI Script Goal'
-    du 13,'Create Object'
-    du 11,'Task Object'
-    du 15,'Declare Victory'
-    du 11,'Kill Object'
-    du 13,'Remove Object'
-endres
-
-resdata string_3601
-    du 11,'Change View'
-    du 6,'Unload'
-    du 16,'Change Ownership'
-    du 6,'Patrol'
-    du 20,'Display Instructions'
-    du 18,'Clear Instructions'
-    du 11,'Freeze Unit'
-    du 20,'Use Advanced Buttons'
-    du 13,'Damage Object'
-    du 16,'Place Foundation'
-    du 18,'Change Object Name'
-    du 16,'Change Object HP'
-    du 20,'Change Object Attack'
-    du 9,'Stop Unit'
-    du 12,'Change Speed'
-    du 12,'Change Range'
-endres
-
-resdata string_3602
-    du 18,'Change Melee Armor'
-    du 19,'Change Pierce Armor'
-    du 19,'Change Rate of Fire'
-    du 24,'Disable Advanced Buttons'
-    du 18,'Change Armor Class'
-    du 19,'Change Attack Class'
-    du 20,'Change Default Armor'
-    du 15,'Change Resource'
-    du 22,'Change Object Resource'
-    du 20,'Change Line of Sight'
-    du 16,'Change Work Rate'
-    du 18,'Change Hero Status'
-    du 14,'Change Icon ID'
-    du 18,'AI Script Goal Off'
-    du 15,'Change Variable'
-    du 19,'Reset All Variables'
-endres
-
-resdata string_3603
-    du 27,'Change Resource by Variable'
-    du 22,'Save Variables to File'
-    du 24,'Load Variables from File'
-    du 5,'Guard'
-    du 6,'Follow'
-    du 5,'Scout'
-    du 27,'Display Parsed Instructions'
-    du 16,'Send Parsed Chat'
-    du 17,'Parse Object Name'
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-    du 0
-endres
- 
-;==================================================
-section '.reloc' fixups data readable discardable
-;==================================================
-
-if ~ $-$$
-	dd 0,8
-end if

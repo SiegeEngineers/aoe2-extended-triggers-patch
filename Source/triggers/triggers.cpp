@@ -1,4 +1,4 @@
-#include "triggers_aux.h"
+#include "triggers.h"
 
 int readBuffer(char* buffer, DWORD* varPointer) {
     if (buffer[0] == 'v')
@@ -304,4 +304,12 @@ void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWOR
 
 }
 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
+    switch (fdwReason) {
+        case DLL_PROCESS_ATTACH:
+            Init(hinstDLL);
+            break;
+    }
 
+  return TRUE;
+}

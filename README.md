@@ -16,18 +16,19 @@ Compiling and Installing
 ------------------------
 
 In order to compile and install the Extended Triggers patch, just follow the following steps:
-1. Compile `triggers.dll` from the triggers.asm source file using the [flat assembler](https://flatassembler.net)
-2. Compile `triggers_aux.dll` from the source files in the `triggers_aux` directory by using MinGW and running the following commands:
+1. Compile `triggers.dll` from the source files in the `triggers` directory by using MinGW and the [flat assembler](https://flatassembler.net) and running the following commands:
 ```
-g++ -c triggers_aux.cpp
-g++ -shared -o triggers_aux.dll triggers_aux.o
+fasm triggers_hook.asm
+windres _triggers.rc _triggers.o
+g++ -c triggers.cpp
+g++ -shared -o triggers.dll triggers_hook.o triggers.o _triggers.o -static-libgcc -static-libstdc++
 ```
-3. Compile the patcher with MinGW by moving the compiled output of steps 1 and 2 to the `patcher` directory and running the following commands, if you want to install the Extended Triggers Patch through the patcher:
+2. Compile the patcher with MinGW by moving the compiled output of step 1 the `patcher` directory and running the following commands, if you want to install the Extended Triggers Patch through the patcher:
 ```
-windres ExtendedTriggersPatch\_patcher.rc _patcher.o
-gcc -c ExtendedTriggersPatch\functions.c -std=c99
-gcc -c ExtendedTriggersPatch\patcher.c -lm -std=c99
-gcc -o ExtendedTriggersPatch\patcher.exe patcher.o functions.o _patcher.o -std=c99
+windres _patcher.rc _patcher.o
+gcc -c functions.c -std=c99
+gcc -c patcher.c -lm -std=c99
+gcc -o patcher.exe patcher.o functions.o _patcher.o -std=c99
 ```
-4. Move the compiled output from steps 1 and 2 into the folder where the AoE2TC with UserPatch 1.5 executable is located and inject the `triggers.dll` into it (which will, in turn, load the `triggers_aux.dll` file)
-5. OR place the compiled patcher into the directory where AoE2TC is installed, run it and follow the instructions onscreen
+3. Move the compiled output from step 1 into the folder where the AoE2TC with UserPatch 1.5 executable is located and inject the `triggers.dll` into it (which will, in turn, load the `triggers_aux.dll` file)
+4. OR place the compiled patcher into the directory where AoE2TC is installed, run it and follow the instructions onscreen
