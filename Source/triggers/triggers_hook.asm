@@ -13,8 +13,8 @@ include 'win32a.inc'
 ;# made by Tomasz Grysztar
 struc db [data]
 {
-	common . db data 
-	sizeof.#. = $ - .
+    common . db data 
+    sizeof.#. = $ - .
 }
 
 ;==================================================
@@ -24,666 +24,642 @@ section '.text' executable
 public __Z4InitP11HINSTANCE__@4
 
 proc __Z4InitP11HINSTANCE__@4 hinstDLL
-	push	esi edi
-	call [GetCurrentProcess]
-	mov	esi,eax
-	mov	edi,1
+    push esi edi
+    call [GetCurrentProcess]
+    mov esi,eax
+    mov edi,1
     
     mov eax,dword[hinstDLL]
     mov dword[_langHandle],eax
     
     stdcall PatchAddress,esi,sub_stringParser,stringParser,1
-    and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_stringParser_1,stringParser,1
-    and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_stringParser_2,stringParser,1
-    and	edi,eax
+    and edi,eax
     
     ;------------------------------- TRIGGERS -------------------------------
 
-	;--- CONDITION/EFFECT STRINGS FIX ---
+    ;--- CONDITION/EFFECT STRINGS FIX ---
     stdcall PatchData,esi,0x004E1F07,TrigStrings0,sizeof.TrigStrings0
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004E1F0A,TrigStrings0a,sizeof.TrigStrings0a
-	and	edi,eax
+    and edi,eax
     ;--- END CONDITION/EFFECT STRINGS FIX ---
-	
-	;--- PATCH TO ENABLE BETA FIELDS IN EDITOR --- 
+    
+    ;--- PATCH TO ENABLE BETA FIELDS IN EDITOR --- 
     stdcall PatchData,esi,0x005EB276,TrigBetaFields0,sizeof.TrigBetaFields0
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004ED089,TrigBetaFields0a,sizeof.TrigBetaFields0a
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004ED09F,TrigBetaFields0b,sizeof.TrigBetaFields0b
-	and	edi,eax
-	
+    and edi,eax
+    
     stdcall PatchData,esi,0x004EA602,TrigBetaFields0c,sizeof.TrigBetaFields0c
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004EB05D,TrigBetaFields0d,sizeof.TrigBetaFields0d
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004ED099,TrigBetaFields0e,sizeof.TrigBetaFields0e
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004E331F,TrigBetaFields0f,sizeof.TrigBetaFields0f
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004E3388,TrigBetaFields0g,sizeof.TrigBetaFields0g
-	and	edi,eax
+    and edi,eax
     ;--- END PATCH TO ENABLE BETA FIELDS IN EDITOR --- 
-	
+    
     ;--- NEW CONDITIONS/EFFECTS ---
     stdcall PatchAddress,esi,0x007DD2E5,EffectAlloc,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x007DD20C,NewTriggers0a,sizeof.NewTriggers0a ;Total memory to be allocated to effect panels (including 'None')
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004375F7,NewTriggers0b,sizeof.NewTriggers0b ;Maximum effect ID
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004E1F07,NewTriggers0d,sizeof.NewTriggers0d ;Effect string amount
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x007DD275,NewTriggers0e,sizeof.NewTriggers0e ;Total memory to be allocated to effect panels (including 'None')
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004EADF9,NewTriggers0f,sizeof.NewTriggers0f ;Max chars in the 'Number' box
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004E1EF9,NewTriggers0g,sizeof.NewTriggers0g ;Effect string start?
-	and	edi,eax
-    
-    ;mov ecx,dword[PatchAddr44c]
-    ;stdcall WriteAddress,esi,ecx,EffectJmpTable
-	;and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,0x00437601,EffectJmpTable,0
-    and	edi,eax
+    and edi,eax
     
-	stdcall PatchAddress,esi,loc_007D8DC0,0x007D8DC0,1
-	and	edi,eax
+    stdcall PatchAddress,esi,loc_007D8DC0,0x007D8DC0,1
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00529950,0x00529950,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400_1,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400_2,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400_3,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400_4,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400_5,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004D1EB0,0x004D1EB0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400_6,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004C6400_7,0x004C6400,1
-	and	edi,eax
-    ;stdcall PatchAddress,esi,loc_004C6400_8,0x004C6400,1
-	;and	edi,eax
-    ;stdcall PatchAddress,esi,loc_004C6440,0x004C6440,1
-	;and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004399F5,0x004399F5,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_007B2820_1,0x007B2820,1
-	and	edi,eax
-    ;stdcall PatchAddress,esi,sub_5681C0,0x005681C0,1
-	;and	edi,eax
-    ;stdcall PatchAddress,esi,sub_5681C0_1,0x005681C0,1
-	;and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_437029,0x00437029,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_437029_1,0x00437029,1
-	and	edi,eax
-    ;stdcall PatchAddress,esi,loc_00436C9F,0x00436C9F,1
-	;and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_00436C9F_1,0x00436C9F,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_00436C9F_2,0x00436C9F,1
-	and	edi,eax
-    ; stdcall PatchAddress,esi,loc_004370DF,0x004370DF,1
-	; and	edi,eax
-    ; stdcall PatchAddress,esi,loc_0043710F,0x0043710F,1
-	; and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139A1,0x006139A1,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00613896,0x00613896,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00614BAD,0x00614BAD,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00614BAD_1,0x00614BAD,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00614BAD_2,0x00614BAD,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B,0x0061442B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_5,0x0061442B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_7,0x0061442B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006138F0,0x006138F0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006138F0_1,0x006138F0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005EAE80,0x005EAE80,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005EAE80_1,0x005EAE80,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_1,0x0061442B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139A1,0x006139A1,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139A1_1,0x006139A1,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006148E1,0x006148E1,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006148E1_1,0x006148E1,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006148E1_2,0x006148E1,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00613896_1,0x00613896,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00613896_2,0x00613896,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00613896_3,0x00613896,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_2,0x0061442B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E2780,0x005E2780,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_3,0x0061442B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E2780_1,0x005E2780,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_4,0x0061442B,1
-	and	edi,eax
-    ; stdcall PatchAddress,esi,sub_0061442B_5,0x0061442B,1
-	; and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E2780_2,0x005E2780,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E2780_3,0x005E2780,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_6,0x0061442B,1
-	and	edi,eax
-    ; stdcall PatchAddress,esi,sub_0061CD70,0x0061CD70,1
-	; and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005EAE90_2,0x005EAE90,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004459E0,0x004459E0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00445A00,0x00445A00,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00445A60,0x00445A60,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005EAE90,0x005EAE90,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004454C0,0x004454C0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00445840,0x00445840,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00445840_1,0x00445840,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00445840_2,0x00445840,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00445850,0x00445850,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00445850_1,0x00445850,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005EB420,0x005EB420,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004459F0,0x004459F0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005C9A30,0x005C9A30,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005C9AE0,0x005C9AE0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005C9C70,0x005C9C70,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0040231B,0x0040231B,1
-	and	edi,eax
-    ;stdcall PatchAddress,esi,sub_0051C670,0x0051C670,1
-	;and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139E4_A1,0x006139E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139E4_A2,0x006139E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139E4_A3,0x006139E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139E4_A4,0x006139E4,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_007C85A0,0x007C85A0,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_005E7560_3,0x005E7560,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E2780_4,0x005E2780,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_0043768D,0x0043768D,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_004C6400,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004C6400_1,0x004C6400,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061567C,0x0061567C,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00568590,0x00568590,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004399F0,CondAlloc,5
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x007DD205,NewTriggers1a,sizeof.NewTriggers1a
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x00436B37,NewTriggers1b,sizeof.NewTriggers1b
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,0x00436B41,CondJmpTable,0
-    and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004E1F47,NewTriggers1d,sizeof.NewTriggers1d
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x007DD248,NewTriggers1e,sizeof.NewTriggers1e
-    and	edi,eax
-	
-	stdcall PatchCodeCave,esi,0x00436B11,SaveScenSec,5
-	and	edi,eax
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x00436B11,SaveScenSec,5
+    and edi,eax
     
     stdcall PatchData,esi,0x004E1F39,NewTriggers1k,sizeof.NewTriggers1k
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x004E1F4A,NewTriggers1f,sizeof.NewTriggers1f
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E3FEA,TriggerCondLoadFix,5
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E257C,TriggerCondSaveFix,5
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004E3FEF,0x004E3FEF,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_00550920,0x00550920,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_005509E0,0x005509E0,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004E41EF,0x004E41EF,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004E2581,0x004E2581,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_004E1B80,0x004E1B80,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_00550740,0x00550740,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004E29E2,0x004E29E2,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005509E0_4,0x005509E0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E41EF_2,0x004E41EF,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550920_4,0x00550920,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E29E2_2,0x004E29E2,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E25B9,0x004E25B9,1
-	and	edi,eax
+    and edi,eax
     
     ;--- END NEW CONDITIONS/EFFECTS ---
-	
+    
     ;--- VARIABLE SAVING/RESETTING ---
-	stdcall PatchCodeCave,esi,0x004A5CCB,ResetVars1,5
-	and	edi,eax
+    stdcall PatchCodeCave,esi,0x004A5CCB,ResetVars1,5
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004A5CD0,0x004A5CD0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004A5F3A,0x004A5F3A,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_006139E4_1,0x006139E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_006139E4_2,0x006139E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0043A000,0x0043A000,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_00436B16,0x00436B16,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004A6016,SaveVars,6
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004A5DE4,LoadVars,5
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_00542AA0,0x00542AA0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004A601C,0x004A601C,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_00542850,0x00542850,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00542850_1,0x00542850,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004A5DE9,0x004A5DEC,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00616D80,0x00616D80,1
-	and	edi,eax
+    and edi,eax
     
     ;--- END VARIABLE SAVING/RESETTING ---
     
     ;--- SAVEGAME FILE EXTENSION PATCH ---
     stdcall PatchData,esi,0x0066B174,SaveGameExtPatch0,sizeof.SaveGameExtPatch0
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x0066FA3E,SaveGameExtPatch0,sizeof.SaveGameExtPatch0
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x0066FDD0,SaveGameExtPatch0,sizeof.SaveGameExtPatch0
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x00678C2F,SaveGameExtPatch0,sizeof.SaveGameExtPatch0
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x00678C40,SaveGameExtPatch0,sizeof.SaveGameExtPatch0
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchData,esi,0x00678e85,SaveGameExtPatch1,sizeof.SaveGameExtPatch1
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x00678e9a,SaveGameExtPatch1,sizeof.SaveGameExtPatch1
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x00678ea4,SaveGameExtPatch1,sizeof.SaveGameExtPatch1
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x0067d3a2,SaveGameExtPatch1,sizeof.SaveGameExtPatch1
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x0067d3b4,SaveGameExtPatch1,sizeof.SaveGameExtPatch1
-	and	edi,eax
+    and edi,eax
     stdcall PatchData,esi,0x0067e23c,SaveGameExtPatch1,sizeof.SaveGameExtPatch1
-	and	edi,eax
+    and edi,eax
     ;--- END SAVEGAME FILE EXTENSION PATCH ---
     
     ;--- CUSTOM CONTROLS ---
     
     stdcall PatchCodeCave,esi,0x004EB250,AllocateNewControls,5
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_004EDDD0,0x004EDDD0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDED0,0x004EDED0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6_1,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00562D10_A1,0x00562D10,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB255,0x004EB255,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDED0_1,0x004EDED0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6_2,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00562D10_A2,0x00562D10,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDDD0_1,0x004EDDD0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6_3,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDDD0_2,0x004EDDD0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6_4,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDED0_2,0x004EDED0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6_5,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00562D10_A3,0x00562D10,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDDD0_3,0x004EDDD0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6_6,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDED0_3,0x004EDED0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EB3A6_7,0x004EB3A6,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00562D10_A4,0x00562D10,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDDD0_4,0x004EDDD0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDDD0_5,0x004EDDD0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_004EDDD0_6,0x004EDDD0,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004ECF1C,InitializeNewControls,6
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004ECF22,0x004ECF22,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E21BB,HideNewControls,6
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004E21C1,0x004E21C1,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004EF752,DeallocateNewControls,6
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_005E7310_A1,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A2,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EF758,0x004EF758,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A3,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A4,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A5,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A6,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A7,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A8,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A9,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A10,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A11,0x005E7310,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,0x004E3720,SaveTimer,0
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0054DCC0,0x0054DCC0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00620886,0x00620886,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0054DCC0_1,0x0054DCC0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E2F89,0x004E2F89,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00620886_1,0x00620886,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0054DCC0_2,0x0054DCC0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E2F89_1,0x004E2F89,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005507E0,0x005507E0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E2F89_2,0x004E2F89,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,0x004E4838,LoadTimer,0
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0054DE40,0x0054DE40,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00614F6B,0x00614F6B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004380B0,0x004380B0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550920_1,0x00550920,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E47E4,0x004E47E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E47E4,0x004E47E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005509E0_1,0x005509E0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004380B0_1,0x004380B0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E47E4_1,0x004E47E4,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004EE0D2,DropDownBoxWidth,6
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004EE0E3,0x004EE0E3,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EE0D8,0x004EE0D8,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EE0EA,0x004EE0EA,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EE0E3_1,0x004EE0E3,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EE0EA_1,0x004EE0EA,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004EEB2B,DropDownBoxInit,6
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_1,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_2,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EEB80,0x004EEB80,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EEB31,0x004EEB31,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_3,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_4,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_5,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_6,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_7,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_8,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_9,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_A,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EEB80_1,0x004EEB80,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EEB80_2,0x004EEB80,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_B,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_C,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_D,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_E,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_F,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_10,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_11,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_12,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_13,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_14,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_15,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_16,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_17,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_18,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_19,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_1A,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_1B,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550870_1C,0x00550870,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004EEB80_3,0x004EEB80,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E2C91,SaveNumber,6
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005507E0_1,0x005507E0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E2F89_3,0x004E2F89,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E2C97,0x004E2C97,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E43AF,LoadNumber,6
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550920_2,0x00550920,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005509E0_2,0x005509E0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004380B0_2,0x004380B0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E47E4_2,0x004E47E4,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E43B5,0x004E43B5,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_004E29E2_1,0x004E29E2,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E27E2,0x004E27E2,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_00550920_3,0x00550920,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_005509E0_3,0x005509E0,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E41EF_1,0x004E41EF,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E4101,0x004E4101,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E27E2_1,0x004E27E2,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E27DC,SaveCondTimer,6
-	and	edi,eax
+    and edi,eax
     stdcall PatchCodeCave,esi,0x004E40FB,LoadCondTimer,6
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E2B6E,SaveQuantity,6
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E2B74,0x004E2B74,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E2B74_1,0x004E2B74,1
-	and	edi,eax
+    and edi,eax
     
     
     ;--- END CUSTOM CONTROLS ---
@@ -691,52 +667,39 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     ;--- FIX UP 1.5 EFFECT NAMES ---
     
     stdcall PatchCodeCave,esi,0x007D892D,FixEffectName,5
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,sub_0061442B_8,0x0061442B,1
-	and	edi,eax
+    and edi,eax
     stdcall PatchAddress,esi,loc_004E3A90,0x004E3A90,1
-	and	edi,eax
+    and edi,eax
     
     ;--- END FIX UP 1.5 EFFECT NAMES ---
     
 
     ;----------------------------- END TRIGGERS -----------------------------
     
-	; stdcall PatchCodeCave,esi,0x0043AFF0,load_lang,5
-	; and	edi,eax
     
-    ; stdcall PatchAddress,esi,loc_0043BB45,0x0043BB45,1
-	; and	edi,eax
+    ;--- STRING LOADING ---
     
-    ; stdcall PatchAddress,esi,loc_0043AFF5,0x0043AFF5,1
-	; and	edi,eax
-    
-	stdcall PatchCodeCave,esi,0x0043CF4C,load_str,5
-	and	edi,eax
+    stdcall PatchCodeCave,esi,0x0043CF4C,load_str,5
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_005E4750,0x005E4750,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_0058E820,0x0058E820,1
-	and	edi,eax
+    and edi,eax
     
     stdcall PatchAddress,esi,loc_0043CF51,0x0043CF51,1
-	and	edi,eax
+    and edi,eax
     
-    stdcall PatchAddress,esi,sub_006139E4_A1,0x006139E4,1
-	and	edi,eax
-    stdcall PatchAddress,esi,sub_006139E4_A2,0x006139E4,1
-	and	edi,eax
-    stdcall PatchAddress,esi,sub_006139E4_A3,0x006139E4,1
-	and	edi,eax
-    stdcall PatchAddress,esi,sub_006139E4_A4,0x006139E4,1
-	and	edi,eax
+    ;--- END STRING LOADING ---
     
-	mov	eax,edi
-	pop	edi esi
+    mov    eax,edi
+    pop    edi esi
     
     .end:
-	ret
+    ret
 endp
 
 EffectAlloc:
@@ -3871,32 +3834,32 @@ TriggerCondSaveFix:
     
 ; load_lang:
 
-	; stdcall esi,_trigDir
-	; cmp	eax,ebx
-	; mov	dword[_langHandle],eax
-	; jnz	.jumpback
-	; mov	dword[ebp+64h],1
-	; xor	eax,eax
-	; jmp	near $
+    ; stdcall esi,_trigDir
+    ; cmp    eax,ebx
+    ; mov    dword[_langHandle],eax
+    ; jnz    .jumpback
+    ; mov    dword[ebp+64h],1
+    ; xor    eax,eax
+    ; jmp    near $
     ; loc_0043BB45 = $-4
 
-	; .jumpback:
-	; lea	ecx,[esp+24h]
-	; push	ecx
-	; jmp	near $
+    ; .jumpback:
+    ; lea    ecx,[esp+24h]
+    ; push    ecx
+    ; jmp    near $
     ; loc_0043AFF5 = $-4
     
 load_str:
     
     call near $
     loc_005E4750 = $-4
-    cmp	byte[eax],0
-	jne	.jmpback
+    cmp    byte[eax],0
+    jne    .jmpback
     push edi
     push esi
     push ebx
     push dword[_langHandle]
-	stdcall near $
+    stdcall near $
     loc_0058E820 = $-4
     
     .jmpback:
@@ -3908,104 +3871,104 @@ load_str:
 
 proc memcpy c destination,source,num
 
-	mov	ecx,dword[num]
-	jecxz	.end
-	push	esi edi
-	mov	esi,dword[source] 
-	mov	edi,dword[destination]
-	mov	edx,ecx
-	shr	ecx,2
-	rep	movsd
-	mov	ecx,edx
-	and	ecx,3
-	rep	movsb
-	pop	edi esi
-	.end:
-	mov	eax,dword[destination]
-	ret
+    mov    ecx,dword[num]
+    jecxz    .end
+    push    esi edi
+    mov    esi,dword[source] 
+    mov    edi,dword[destination]
+    mov    edx,ecx
+    shr    ecx,2
+    rep    movsd
+    mov    ecx,edx
+    and ecx,3
+    rep    movsb
+    pop    edi esi
+    .end:
+    mov    eax,dword[destination]
+    ret
 endp
 
 proc strrchr c str,character
 
-	push	edi
-	mov	edi,dword[str]
-	or	ecx,-1
-	xor	eax,eax
-	repne	scasb
-	not	ecx
-	dec	edi
-	xor	edx,edx
-	mov	al,byte[character]
-	std
-	repne	scasb
-	cld
-	sete	dl
-	neg	edx
-	lea	eax,[edi+1]
-	and	eax,edx
-	pop	edi
-	ret
+    push    edi
+    mov    edi,dword[str]
+    or    ecx,-1
+    xor    eax,eax
+    repne    scasb
+    not    ecx
+    dec    edi
+    xor    edx,edx
+    mov    al,byte[character]
+    std
+    repne    scasb
+    cld
+    sete    dl
+    neg    edx
+    lea    eax,[edi+1]
+    and eax,edx
+    pop    edi
+    ret
 endp
 
 ;--------------------------------------------------
 
 proc PatchCodeCave hProcess,lpBaseAddress,lpDestProc,nSize
 
-	push	ebx esi edi
-	mov	ebx,dword[nSize]
-	xor	eax,eax
-	cmp	ebx,5
-	jb	.end
-	mov	esi,dword[lpBaseAddress]
-	mov	edi,dword[hProcess]
-	lea	eax,[nSize]
-	mov	byte[eax],0xE9
-	stdcall PatchData,edi,esi,eax,1
-	test	eax,eax
-	jz	.end
-	inc	esi
-	stdcall PatchAddress,edi,esi,dword[lpDestProc],1
-	test	eax,eax
-	jz	.end
-	sub	ebx,5
-	jz	.end
-	add	esi,4
-	mov	byte[nSize],0x90
-	.loop:
-	lea	eax,[nSize]
-	stdcall PatchData,edi,esi,eax,1
-	test	eax,eax
-	jz	.end
-	inc	esi
-	dec	ebx
-	jnz	.loop
-	.end:
-	pop	edi esi ebx
-	ret
+    push    ebx esi edi
+    mov    ebx,dword[nSize]
+    xor    eax,eax
+    cmp    ebx,5
+    jb    .end
+    mov    esi,dword[lpBaseAddress]
+    mov    edi,dword[hProcess]
+    lea    eax,[nSize]
+    mov    byte[eax],0xE9
+    stdcall PatchData,edi,esi,eax,1
+    test    eax,eax
+    jz    .end
+    inc    esi
+    stdcall PatchAddress,edi,esi,dword[lpDestProc],1
+    test    eax,eax
+    jz    .end
+    sub    ebx,5
+    jz    .end
+    add    esi,4
+    mov    byte[nSize],0x90
+    .loop:
+    lea    eax,[nSize]
+    stdcall PatchData,edi,esi,eax,1
+    test    eax,eax
+    jz    .end
+    inc    esi
+    dec    ebx
+    jnz    .loop
+    .end:
+    pop    edi esi ebx
+    ret
 endp
 
 proc PatchAddress hProcess,lpBaseAddress,lpDestAddress,bRelAddr
 
-	push	ebx
-	mov	eax,dword[lpBaseAddress]
-	lea	ecx,[eax+4]
-	lea	edx,[lpDestAddress]
-	neg	dword[bRelAddr]
-	sbb	ebx,ebx
-	and	ecx,ebx
-	sub	dword[edx],ecx
-	stdcall PatchData,dword[hProcess],eax,edx,4
-	pop	ebx
-	ret
+    push    ebx
+    mov    eax,dword[lpBaseAddress]
+    lea    ecx,[eax+4]
+    lea    edx,[lpDestAddress]
+    neg    dword[bRelAddr]
+    sbb    ebx,ebx
+    and ecx,ebx
+    sub    dword[edx],ecx
+    stdcall PatchData,dword[hProcess],eax,edx,4
+    pop    ebx
+    ret
 endp
 
 proc PatchData hProcess,lpBaseAddress,lpBuffer,nSize
 
-	stdcall [WriteProcessMemory],dword[hProcess],dword[lpBaseAddress],dword[lpBuffer],dword[nSize],0
-	test	eax,eax
-	setnz	cl
-	movzx	eax,cl
-	ret
+    stdcall [WriteProcessMemory],dword[hProcess],dword[lpBaseAddress],dword[lpBuffer],dword[nSize],0
+    test    eax,eax
+    setnz    cl
+    movzx    eax,cl
+    ret
 endp
 
 ;==================================================
@@ -4013,21 +3976,21 @@ section '.data'
 ;==================================================
 
 _cap                                db 'Error',0
-_msg2								db 'Failed to load required library "triggers_aux.dll".',0ah,'Make sure you have installed the Extended Triggers Patch correctly.',0
+_msg2                                db 'Failed to load required library "triggers_aux.dll".',0ah,'Make sure you have installed the Extended Triggers Patch correctly.',0
 
 ;REAL STRINGS FOR UP TRIGGERS
-TrigStrings0							db 0x22
-TrigStrings0a						db 0x8B,0x8F,0xF4,0x0D,0x00,0x00
+TrigStrings0                            db 0x22
+TrigStrings0a                        db 0x8B,0x8F,0xF4,0x0D,0x00,0x00
 
 ;ENABLE BETA FIELDS IN EDITOR
-TrigBetaFields0							db 0x01
-TrigBetaFields0a						db 0x38,0x02,0x00,0x00
-TrigBetaFields0b						db 0x38,0x02,0x00,0x00
-TrigBetaFields0c						db 0x0A
-TrigBetaFields0d						db 0x0A
-TrigBetaFields0e						db 0x5A
-TrigBetaFields0f						db 0xEB
-TrigBetaFields0g						db 0xEB
+TrigBetaFields0                            db 0x01
+TrigBetaFields0a                        db 0x38,0x02,0x00,0x00
+TrigBetaFields0b                        db 0x38,0x02,0x00,0x00
+TrigBetaFields0c                        db 0x0A
+TrigBetaFields0d                        db 0x0A
+TrigBetaFields0e                        db 0x5A
+TrigBetaFields0f                        db 0xEB
+TrigBetaFields0g                        db 0xEB
 
 NewTriggers0                         db 0x00,0x00,0x00,0x00
 NewTriggers0a                        db 0xE4
