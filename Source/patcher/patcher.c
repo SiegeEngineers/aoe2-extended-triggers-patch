@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
                     break;
                 case '3':
                     printf("\nExtended Triggers Patch\n");
-                    printf("Version 1.6 (2019.03.11)\n\n");
+                    printf("Version 1.6 (2019.03.21)\n\n");
                     break;
                 default:
                     printf("\nInvalid option\n");
