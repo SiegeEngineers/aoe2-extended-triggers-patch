@@ -15,7 +15,7 @@ More information about the patch, including full changelog and the full list of 
 Compiling and Installing
 ------------------------
 
-In order to compile and install the Extended Triggers patch, just follow the following steps:
+In case the system enviroment variables are properly set for the usage of MinGW, [flat assembler](https://flatassembler.net) and Make, both the main DLL and the patcher executable of the Extended Triggers Patch can be compiled through the usage of the Makefile. Otherwise, in order to compile and install the Extended Triggers patch, the following steps will need to be followed:
 1. Compile `triggers.dll` from the source files in the `triggers` directory by using MinGW and the [flat assembler](https://flatassembler.net) and running the following commands:
 ```
 fasm triggers_hook.asm
