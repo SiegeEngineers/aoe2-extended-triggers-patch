@@ -273,6 +273,8 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     
     stdcall PatchAddress,esi,sub_004C6400,0x004C6400,1
 	and	edi,eax
+    stdcall PatchAddress,esi,sub_004C6400_1,0x004C6400,1
+	and	edi,eax
     stdcall PatchAddress,esi,sub_0061567C,0x0061567C,1
 	and	edi,eax
     stdcall PatchAddress,esi,sub_00568590,0x00568590,1
@@ -2158,29 +2160,13 @@ ChangeAndParseName:
     sub_stringParser_2 = $-4
     add esp,16
     lea ebx,[esp+198h]
-
-    .loop:
-    mov esi,[ebx]
-    mov eax,[esi+08]
-    mov al,[eax+04]
-    cmp al,46h
-    je .valid
-    cmp al,50h
-    jne .next
-
-    .valid:
-    mov ecx,esi
-    call near $
-    sub_004C6400 = $-4
     mov eax,[edi+64h]
     test eax,eax
-    jng .change_name
-
+    jng .change_name_loop
+    
     .attribute:
-    push ebx
-    push ebp
-    sub esp,10h
-    lea ebp,[esp+18h]
+    sub esp,14h
+    lea ebp,[esp+14h]
 
     .loop1:
     lea edx,[esp+0Ch]
@@ -2207,6 +2193,24 @@ ChangeAndParseName:
     je .loop1 ;loop1
     cmp edx,02
     ja .loop1 ;loop1
+    mov [esp+10h],ebp
+    xor ebp,ebp
+    lea ebx,[esp+1ACh]
+    
+    .apply_loop:
+    mov esi,[ebx]
+    mov eax,[esi+08]
+    mov al,[eax+04]
+    cmp al,46h
+    je .apply_valid
+    cmp al,50h
+    jne .apply_next
+    
+    .apply_valid:
+    mov ecx,esi
+    call near $
+    sub_004C6400_1 = $-4
+    mov eax,[esp+04]
     mov ecx,[esp+08]
     mov edx,[esp+0Ch]
     push eax
@@ -2215,21 +2219,41 @@ ChangeAndParseName:
     cmp edx,02
     jne .dont_divide ;divide
     fmul qword[006374D8h]
-
     .dont_divide:
-    mov eax,[esp+08]
     fstp dword[esp]
     mov ecx,[esi+08]
     mov edx,[ecx]
+    mov eax,[esp+08]
     call dword[edx+eax*4+08]
+    
+    .apply_next:
+    mov eax,[esp+128h]
+    inc ebp
+    add ebx,04
+    cmp ebp,eax
+    jl .apply_loop
+    
+    mov ebp,[esp+10h]
     jmp .loop1
 
     .end_attr:
-    add esp,10h
-    pop ebp
-    pop ebx
-    jmp .next ;next
+    add esp,14h
+    jmp ._end
+    
+    .change_name_loop:
+    mov esi,[ebx]
+    mov eax,[esi+08]
+    mov al,[eax+04]
+    cmp al,46h
+    je .change_name_valid
+    cmp al,50h
+    jne .change_name_next
 
+    .change_name_valid:
+    mov ecx,esi
+    call near $
+    sub_004C6400 = $-4
+    
     .change_name:
     mov esi,[esi+08]
     mov cx,[edi+34h]
@@ -2242,14 +2266,14 @@ ChangeAndParseName:
     sub_00568590 = $-4
     add esp,08
 
-    .next:
+    .change_name_next:
     mov eax,[esp+114h]
     inc ebp
     add ebx,04
     cmp ebp,eax
-    jl .loop ;loop
-    
-    
+    jl .change_name_loop ;loop
+
+    ._end:
     add esp,260
     .end:
     pop edi

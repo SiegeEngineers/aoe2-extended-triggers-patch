@@ -11,7 +11,7 @@ BEGIN
       VALUE "InternalName", "triggers"
       VALUE "OriginalFilename", "TRIGGERS.DLL"
       VALUE "ProductName", "Extended Triggers Patch"
-      VALUE "ProductVersion", "2019.03.20"
+      VALUE "ProductVersion", "2019.03.21"
     END
   END
 
