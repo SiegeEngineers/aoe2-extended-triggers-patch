@@ -41,6 +41,10 @@ BEGIN
   3134 "Civilization ID"
   3146 "Maximum Value"
   3147 "Minimum Value"
+  3148 "Game Time (seconds)"
+  3149 "Game Time (years)"
+  3150 "Tile Coordinate"
+  3151 "Select the value to be saved to a variable"
   10787 "Mode"
   10788 "Set"
   10789 "Add"
@@ -143,4 +147,5 @@ BEGIN
   57640 "Parse Object Name"
   57641 "Randomize Variable"
   57642 "Pick Random Value"
+  57643 "Save Value to Variable"
 END
