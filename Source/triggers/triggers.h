@@ -2,6 +2,8 @@
 #define TRIGGERS_AUX_H
 
 #include <windows.h>
+#include <stdint.h>
+#include <string.h>
 #include "strsafe.h"
 
 typedef enum VARIABLE_TYPE {
@@ -19,7 +21,9 @@ typedef enum VARIABLE_TYPE {
 
 void __stdcall Init(HINSTANCE hinstDLL);
 
-extern "C" __declspec(dllexport)
-void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWORD* varPointer);
+extern "C"  {
+    __declspec(dllexport) void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWORD* varPointer);
+    __declspec(dllexport) __int32 __cdecl randomPicker(char* src);
+}
 
 #endif

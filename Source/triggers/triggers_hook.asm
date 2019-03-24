@@ -3,6 +3,7 @@ format ELF
 extrn '__imp__WriteProcessMemory@20' as WriteProcessMemory:dword
 extrn '__imp__GetCurrentProcess@0' as GetCurrentProcess:dword
 extrn '_stringParser' as stringParser:dword
+extrn '_randomPicker' as randomPicker:dword
 
 ;==================================================
 ; Includes
@@ -39,6 +40,12 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     
     stdcall PatchAddress,esi,sub_stringParser_2,stringParser,1
+    and edi,eax
+    
+    stdcall PatchAddress,esi,sub_stringParser_3,stringParser,1
+    and edi,eax
+    
+    stdcall PatchAddress,esi,sub_randomPicker,randomPicker,1
     and edi,eax
     
     ;------------------------------- TRIGGERS -------------------------------
@@ -256,6 +263,9 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchAddress,esi,sub_00568590,0x00568590,1
     and edi,eax
     
+    stdcall PatchAddress,esi,sub_007B2820_2,0x007B2820,1
+    and edi,eax
+    
     stdcall PatchCodeCave,esi,0x004399F0,CondAlloc,5
     and edi,eax
     
@@ -444,6 +454,22 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,sub_004EDDD0_6,0x004EDDD0,1
     and edi,eax
+    stdcall PatchAddress,esi,sub_004EDDD0_7,0x004EDDD0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_004EDDD0_8,0x004EDDD0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004EB3A6_8,0x004EB3A6,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_004EDE70,0x004EDE70,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00562D10_A5,0x00562D10,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004EB3A6_9,0x004EB3A6,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_004EDE70_1,0x004EDE70,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00562D10_A6,0x00562D10,1
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004ECF1C,InitializeNewControls,6
     and edi,eax
@@ -484,6 +510,14 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A11,0x005E7310,1
     and edi,eax
+    stdcall PatchAddress,esi,sub_005E7310_A12,0x005E7310,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_005E7310_A13,0x005E7310,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_005E7310_A14,0x005E7310,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_005E7310_A15,0x005E7310,1
+    and edi,eax
     
     stdcall PatchAddress,esi,0x004E3720,SaveTimer,0
     and edi,eax
@@ -506,6 +540,15 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchAddress,esi,loc_004E2F89_2,0x004E2F89,1
     and edi,eax
     
+    stdcall PatchAddress,esi,sub_0054DCC0_3,0x0054DCC0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_0054DCC0_4,0x0054DCC0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004E2F89_5,0x004E2F89,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00620886_3,0x00620886,1
+    and edi,eax
+    
     stdcall PatchAddress,esi,0x004E4838,LoadTimer,0
     and edi,eax
     stdcall PatchAddress,esi,sub_0054DE40,0x0054DE40,1
@@ -518,13 +561,21 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,loc_004E47E4,0x004E47E4,1
     and edi,eax
-    stdcall PatchAddress,esi,loc_004E47E4,0x004E47E4,1
+    stdcall PatchAddress,esi,loc_004E47E4_3,0x004E47E4,1
     and edi,eax
     stdcall PatchAddress,esi,sub_005509E0_1,0x005509E0,1
     and edi,eax
     stdcall PatchAddress,esi,loc_004380B0_1,0x004380B0,1
     and edi,eax
     stdcall PatchAddress,esi,loc_004E47E4_1,0x004E47E4,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_0054DE40_3,0x0054DE40,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_0054DE40_2,0x0054DE40,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00614F6B_1,0x00614F6B,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_004380B0,0x004380B0,1
     and edi,eax
     
     stdcall PatchCodeCave,esi,0x004EE0D2,DropDownBoxWidth,6
@@ -661,6 +712,29 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchAddress,esi,loc_004E2B74_1,0x004E2B74,1
     and edi,eax
     
+    stdcall PatchAddress,esi,sub_0054DCC0_5,0x0054DCC0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_0054DCC0_6,0x0054DCC0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004E2F89_7,0x004E2F89,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00620886_4,0x00620886,1
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x004E42E0,LoadQuantity,6
+    and edi,eax
+    stdcall PatchAddress,esi,sub_0054DE40_5,0x0054DE40,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_0054DE40_4,0x0054DE40,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00614F6B_2,0x00614F6B,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_004380B0_1,0x004380B0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004E47E4_4,0x004E47E4,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004E42E6,0x004E42E6,1
+    and edi,eax
     
     ;--- END CUSTOM CONTROLS ---
     
@@ -899,6 +973,19 @@ EffectAlloc:
     mov [edx+13h],al
     mov [edx+10h],al
     
+    .RandomizeVariable:
+    mov edx,[esi+0Ch]
+    mov edx,[edx+0E4h]
+    mov [edx+01h],cl
+    mov [edx+0Ch],cl
+    mov [edx+16h],cl
+    
+    .PickRandomValue:
+    mov edx,[esi+0Ch]
+    mov edx,[edx+0E8h]
+    mov [edx+0Ah],cl
+    mov [edx+16h],cl
+    
     .back:
     jmp near $
     loc_007D8DC0 = $-4
@@ -961,7 +1048,8 @@ EffectJmpTable:
     dd DisplayParsedInstructions
     dd SendParsedChat
     dd ChangeAndParseName
-    
+    dd RandomizeVariable
+    dd PickRandomValue
 
 ChangeRoF:
 
@@ -2247,6 +2335,80 @@ ChangeAndParseName:
     add esp,2034h
     retn 4
     
+RandomizeVariable:
+    mov ecx,[edi+64h]
+    cmp ecx,255
+    ja .back
+    mov esi,[edi+3Ch]
+    mov ebx,[edi+10h]
+    cmp ebx,esi
+    jle .back
+    sub ebx,esi
+    stdcall near $
+    sub_007B2820_2 = $-4
+    cdq
+    mov ecx,ebx
+    idiv ecx
+    add edx,esi
+    mov ecx,[edi+64h]
+    mov eax,Vars
+    mov [eax+ecx*4],edx
+    
+    .back:
+    pop edi
+    pop esi
+    pop ebp
+    mov al, 1
+    pop ebx
+    add esp,2034h
+    retn 4
+    
+PickRandomValue:
+    mov esi,[edi+64h]
+    cmp esi,255
+    ja .back
+    mov eax,[edi+34h]
+    cmp eax, ebx
+    jl .read_txtbox
+    mov edx,[ecx]
+    push eax
+    call dword[edx+24h]
+    jmp .parse
+    
+    .read_txtbox:
+    mov eax,[edi+6Ch]
+    
+    .parse:
+    sub esp,260
+    push Vars
+    mov ecx,[007912A0h]
+    push ecx
+    lea edx,[esp+8]
+    push edx
+    push eax
+    call near $
+    sub_stringParser_3 = $-4
+    add esp,16
+    mov eax,esp
+    
+    .pick:
+    push eax
+    call near $
+    sub_randomPicker = $-4
+    add esp,4
+    add esp,260
+    mov ecx,Vars
+    mov [ecx+esi*4],eax
+    
+    .back:
+    pop edi
+    pop esi
+    pop ebp
+    mov al, 1
+    pop ebx
+    add esp,2034h
+    retn 4
+    
 CondAlloc:
 
     mov edx,[edx+4Ch]
@@ -3084,6 +3246,7 @@ AllocateNewControls:
     mov ecx,esi
     call near $
     sub_004EDDD0_5 = $-4
+    
     mov eax,[esi+918h]
     mov edx,CivIDTxt
     push 3134
@@ -3092,7 +3255,62 @@ AllocateNewControls:
     mov ecx,esi
     call near $
     sub_004EDDD0_6 = $-4
-    
+    mov eax,[esi+918h]
+    mov edx,MinValLblPtr
+    push 3147
+    push edx
+    push eax
+    mov ecx,esi
+    call near $
+    sub_004EDDD0_7 = $-4
+    mov eax,[esi+918h]
+    mov edx,MaxValLblPtr
+    push 3146
+    push edx
+    push eax
+    mov ecx,esi
+    call near $
+    sub_004EDDD0_8 = $-4
+    mov eax,[esi+918h]
+    push 0 
+    push 0 
+    push 3 
+    mov edi,MinValTxtPtr
+    push 0Ah 
+    push 0x00683CE8
+    push edi 
+    push eax 
+    mov ecx, esi 
+    call near $
+    sub_004EDE70 = $-4
+    test eax,eax
+    jz near $
+    loc_004EB3A6_8 = $-4
+    mov ecx,[edi]
+    push -1
+    push 781Ch
+    call near $
+    sub_00562D10_A5 = $-4
+    mov eax,[esi+918h]
+    push 0 
+    push 0 
+    push 3 
+    mov edi,MaxValTxtPtr
+    push 0Ah 
+    push 0x00683CE8
+    push edi 
+    push eax 
+    mov ecx, esi 
+    call near $
+    sub_004EDE70_1 = $-4
+    test eax,eax
+    jz near $
+    loc_004EB3A6_9 = $-4
+    mov ecx,[edi]
+    push -1
+    push 781Ch
+    call near $
+    sub_00562D10_A6 = $-4
     
     .back:
     mov ecx,[ebp]
@@ -3178,6 +3396,34 @@ InitializeNewControls:
     push 181h
     mov edx,[ecx]
     call dword[edx+1Ch]
+    mov ecx,[MinValLblPtr]
+    push 14h
+    push 96h
+    push 3Ch
+    push 4h
+    mov edx,[ecx]
+    call dword[edx+1Ch]
+    mov ecx,[MaxValLblPtr]
+    push 14h
+    push 96h
+    push 67h
+    push 4h
+    mov edx,[ecx]
+    call dword[edx+1Ch]
+    mov ecx,[MinValTxtPtr]
+    push 14h
+    push 96h
+    push 50h
+    push 4h
+    mov edx,[ecx]
+    call dword[edx+1Ch]
+    mov ecx,[MaxValTxtPtr]
+    push 14h
+    push 96h
+    push 7Bh
+    push 4h
+    mov edx,[ecx]
+    call dword[edx+1Ch]
     
     .back:
     mov ecx,[esi+0E50h]
@@ -3226,6 +3472,22 @@ HideNewControls:
     mov eax,[ecx]
     call dword[eax+14h]
     mov ecx,[CivIDTxt]
+    push 0
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[MinValLblPtr]
+    push 0
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[MaxValLblPtr]
+    push 0
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[MinValTxtPtr]
+    push 0
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[MaxValTxtPtr]
     push 0
     mov eax,[ecx]
     call dword[eax+14h]
@@ -3291,6 +3553,26 @@ DeallocateNewControls:
     mov ecx,esi
     call near $
     sub_005E7310_A11 = $-4
+    mov eax,MinValLblPtr
+    push eax
+    mov ecx,esi
+    call near $
+    sub_005E7310_A12 = $-4
+    mov eax,MaxValLblPtr
+    push eax
+    mov ecx,esi
+    call near $
+    sub_005E7310_A14 = $-4
+    mov eax,MinValTxtPtr
+    push eax
+    mov ecx,esi
+    call near $
+    sub_005E7310_A13 = $-4
+    mov eax,MaxValTxtPtr
+    push eax
+    mov ecx,esi
+    call near $
+    sub_005E7310_A15 = $-4
     
     .back:
     lea eax,[esi+0E64h]
@@ -3300,6 +3582,8 @@ DeallocateNewControls:
 SaveTimer:
     cmp dword[esp+14h],46
     je .drop_down_box
+    cmp dword[esp+14h],57
+    je .min_val
     mov ecx, [esi+0DF8h] ; jumptable 004E2B2C case 12
     push 1
     mov eax, [ecx]
@@ -3333,7 +3617,7 @@ SaveTimer:
     sub_0054DCC0_1 = $-4
     jmp near $
     loc_004E2F89 = $-4
-
+    
     .store_string:
     lea ecx, [esp+4Ch]
     push 0Ah             ; Radix
@@ -3349,6 +3633,39 @@ SaveTimer:
     sub_0054DCC0_2 = $-4
     jmp near $
     loc_004E2F89_1 = $-4
+    
+    .min_val:
+    mov ecx,[MinValLblPtr]
+    push 1
+    mov edx,[ecx]
+    call dword[edx+14h]
+    mov ecx,[MinValTxtPtr]
+    push 1
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[MinValTxtPtr]
+    push 1
+    mov edx,[ecx]
+    call dword[edx+0D0h]
+    mov ecx,[MinValTxtPtr]
+    push 00683CE8h
+    call near $
+    sub_0054DCC0_3 = $-4
+    mov eax,[esp+10h]
+    lea ecx,[esp+4Ch]
+    push 0Ah
+    push ecx
+    push eax
+    call near $
+    sub_00620886_3 = $-4
+    mov ecx,[MinValTxtPtr]
+    add esp, 0Ch
+    lea edx,[esp+4Ch]
+    push edx
+    call near $
+    sub_0054DCC0_4 = $-4
+    jmp near $
+    loc_004E2F89_5 = $-4
     
     .drop_down_box:
     mov ecx,[VarModeTxtPtr]
@@ -3370,8 +3687,10 @@ SaveTimer:
 LoadTimer:
     cmp dword[esp+18h],46
     je .drop_down_box
+    cmp dword[esp+18h],57
+    je .min_val
     mov ecx, [ebp+0DFCh] ; jumptable 004E42B3 case 12
-    mov dword[esp+10h], 0
+    mov byte[esp+20h], 0
     call near $
     sub_0054DE40 = $-4
     push eax             ; Str
@@ -3382,7 +3701,7 @@ LoadTimer:
     push eax
     push 0Ch
     call near $
-    loc_004380B0 = $-4
+    loc_004380B0_2 = $-4
     jmp near $
     loc_004E47E4 = $-4
     
@@ -3401,6 +3720,41 @@ LoadTimer:
     loc_004380B0_1 = $-4
     jmp near $
     loc_004E47E4_1 = $-4
+    
+    .min_val:
+    mov ecx,[MinValTxtPtr]
+    mov byte[esp+20h],0
+    call near $
+    sub_0054DE40_3 = $-4
+    mov edi, eax
+    or ecx, -1
+    xor eax, eax
+    lea edx, [esp+20h]
+    repne scasb
+    not ecx
+    sub edi, ecx
+    mov eax, ecx
+    mov esi, edi
+    mov edi, edx
+    shr ecx, 2
+    rep movsd
+    mov ecx, eax
+    and ecx, 3
+    rep movsb
+    mov ecx,[MinValTxtPtr]
+    call near $
+    sub_0054DE40_2 = $-4
+    push eax
+    call near $
+    sub_00614F6B_1 = $-4
+    add esp, 4
+    mov ecx, ebx
+    push eax
+    push 0Ch
+    call near $
+    sub_004380B0 = $-4
+    jmp near $
+    loc_004E47E4_3 = $-4
     
 DropDownBoxWidth:
     mov ecx,VarModeDdbPtr
@@ -3639,7 +3993,7 @@ LoadNumber:
     push eax
     push 16h
     call near $
-    loc_004380B0_2 = $-4
+    loc_004380B0 = $-4
     jmp near $
     loc_004E47E4_2 = $-4
     
@@ -3705,7 +4059,42 @@ LoadCondTimer:
     
 SaveQuantity:
     cmp dword[esp+14h],48
+    je .variable_id
+    cmp dword[esp+14h],57
     jne .back
+    
+    .max_val:
+    mov ecx,[MaxValLblPtr]
+    push 1
+    mov edx,[ecx]
+    call dword[edx+14h]
+    mov ecx,[MaxValTxtPtr]
+    push 1
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[MaxValTxtPtr]
+    push 1
+    mov edx,[ecx]
+    call dword[edx+0D0h]
+    mov ecx,[MaxValTxtPtr]
+    push 00683CE8h
+    call near $
+    sub_0054DCC0_5 = $-4
+    mov eax,[esp+10h]
+    lea ecx,[esp+4Ch]
+    push 0Ah
+    push ecx
+    push eax
+    call near $
+    sub_00620886_4 = $-4
+    mov ecx,[MaxValTxtPtr]
+    add esp, 0Ch
+    lea edx,[esp+4Ch]
+    push edx
+    call near $
+    sub_0054DCC0_6 = $-4
+    jmp near $
+    loc_004E2F89_7 = $-4
     
     .variable_id:
     mov ecx,[VarIDTxt2]
@@ -3716,6 +4105,50 @@ SaveQuantity:
     mov ecx,[esi+0E38h]
     jmp near $
     loc_004E2B74_1 = $-4
+    
+LoadQuantity: ;004E2B6E
+    cmp dword[esp+18h],57
+    jne .back
+    
+    .max_val:
+    mov ecx,[MaxValTxtPtr]
+    mov byte[esp+20h],0
+    call near $
+    sub_0054DE40_5 = $-4
+    mov edi, eax
+    or ecx, -1
+    xor eax, eax
+    lea edx, [esp+20h]
+    repne scasb
+    not ecx
+    sub edi, ecx
+    mov eax, ecx
+    mov esi, edi
+    mov edi, edx
+    shr ecx, 2
+    rep movsd
+    mov ecx, eax
+    and ecx, 3
+    rep movsb
+    mov ecx,[MaxValTxtPtr]
+    call near $
+    sub_0054DE40_4 = $-4
+    push eax
+    call near $
+    sub_00614F6B_2 = $-4
+    add esp, 4
+    mov ecx, ebx
+    push eax
+    push 1
+    call near $
+    sub_004380B0_1 = $-4
+    jmp near $
+    loc_004E47E4_4 = $-4
+    
+    .back:
+    mov ecx,[ebp+0E3Ch]
+    jmp near $
+    loc_004E42E6 = $-4
     
 SaveVars:
 
@@ -3993,11 +4426,11 @@ TrigBetaFields0f                        db 0xEB
 TrigBetaFields0g                        db 0xEB
 
 NewTriggers0                         db 0x00,0x00,0x00,0x00
-NewTriggers0a                        db 0xE4
-NewTriggers0b                        db 0x37
+NewTriggers0a                        db 0xEC ; Allocated Memory for Effect Panels
+NewTriggers0b                        db 0x3A ; Max Effect ID
 NewTriggers0c                        db 0x00,0x00,0x00,0x00
-NewTriggers0d                        db 0x39
-NewTriggers0e                        db 0xE4
+NewTriggers0d                        db 0x3B ; Effect String Amount
+NewTriggers0e                        db 0xEC ; Allocated Memory for Effect Panels
 NewTriggers0f                        db 0x05
 NewTriggers0g                        db 0xF0,0xE0
 
@@ -4043,6 +4476,10 @@ TechStateTxtPtr                     dd 0
 VarIDTxt                            dd 0
 VarIDTxt2                           dd 0
 CivIDTxt                            dd 0
+MinValLblPtr                        dd 0
+MinValTxtPtr                        dd 0
+MaxValLblPtr                        dd 0
+MaxValTxtPtr                        dd 0
 
 FileVarNumber rb 2
 FileVer rb 4

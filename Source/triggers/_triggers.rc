@@ -39,6 +39,8 @@ BEGIN
   3132 "Select a technology state"
   3133 "Variable ID"
   3134 "Civilization ID"
+  3146 "Maximum Value"
+  3147 "Minimum Value"
   10787 "Mode"
   10788 "Set"
   10789 "Add"
@@ -139,4 +141,6 @@ BEGIN
   57638 "Display Parsed Instructions"
   57639 "Send Parsed Chat"
   57640 "Parse Object Name"
+  57641 "Randomize Variable"
+  57642 "Pick Random Value"
 END

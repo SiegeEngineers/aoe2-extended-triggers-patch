@@ -304,6 +304,30 @@ void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWOR
 
 }
 
+extern "C" __declspec(dllexport)
+__int32 __cdecl randomPicker(char* src) {
+    __int32 values[64];
+    int count = 0;
+    char* token;
+    const char delim[2] = " ";
+    __int32(__cdecl* up_rand)(void) = reinterpret_cast<__int32(__cdecl*)(void)>(0x007B2820);
+    
+    token = strtok(src, delim);
+    
+    while (token && count < 64) {
+        values[count++] = (__int32) atoi(token);
+        token = strtok(NULL, delim);
+    }
+    
+    if (count < 1)
+        return 0;
+    
+    __int32 chosen_id = up_rand() % count;
+    
+    return values[chosen_id];
+    
+}
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
     switch (fdwReason) {
         case DLL_PROCESS_ATTACH:
