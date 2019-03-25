@@ -812,6 +812,26 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     
     ;--- END STRING LOADING ---
     
+    ;--- SAVING EXTRA ATTRIBUTES TO SAVEGAMES ---
+    
+    stdcall PatchCodeCave,esi,0x007DA9AA,SaveType10Attr,5
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_1,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_2,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DA9AF,0x007DA9AF,1
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x007DA9FC,LoadType10Attr,5
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_2,0x00542850,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DAA01,0x007DAA01,1
+    and edi,eax
+    
+    ;--- END SAVING EXTRA ATTRIBUTES TO SAVEGAMES ---
+    
     mov    eax,edi
     pop    edi esi
     
@@ -4483,22 +4503,31 @@ TriggerCondSaveFix:
     jmp near $
     loc_004E29E2_2 = $-4
     
-; load_lang:
+SaveType10Attr: ;007DA9AA
+    call near $
+    sub_00542AA0_1 = $-4
+    lea ecx,[esi+54h]
+    push 2
+    push ecx
+    push edi
+    call near $
+    sub_00542AA0_2 = $-4
+    add esp,0Ch
+    jmp near $
+    loc_007DA9AF = $-4
 
-    ; stdcall esi,_trigDir
-    ; cmp    eax,ebx
-    ; mov    dword[_langHandle],eax
-    ; jnz    .jumpback
-    ; mov    dword[ebp+64h],1
-    ; xor    eax,eax
-    ; jmp    near $
-    ; loc_0043BB45 = $-4
-
-    ; .jumpback:
-    ; lea    ecx,[esp+24h]
-    ; push    ecx
-    ; jmp    near $
-    ; loc_0043AFF5 = $-4
+LoadType10Attr: ;007DA9FC
+    lea ecx,[esi+54h]
+    push 2
+    push ecx
+    push ebp
+    call near $
+    sub_00542850_2 = $-4
+    add esp,0Ch
+    lea ecx,[esi+50h]
+    push 2
+    jmp near $
+    loc_007DAA01 = $-4
     
 load_str:
     
