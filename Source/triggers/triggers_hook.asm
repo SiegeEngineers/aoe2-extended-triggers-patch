@@ -482,6 +482,16 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,sub_00562D10_A6,0x00562D10,1
     and edi,eax
+    stdcall PatchAddress,esi,sub_004EDED0_5,0x004EDED0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004EB3A6_0C,0x004EB3A6,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00562D10_A8,0x00562D10,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_004EDDD0_0A,0x004EDDD0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004EB3A6_0D,0x004EB3A6,1
+    and edi,eax
     
     stdcall PatchAddress,esi,sub_004EDED0_4,0x004EDED0,1
     and edi,eax
@@ -545,6 +555,10 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,sub_005E7310_A17,0x005E7310,1
     and edi,eax
+    stdcall PatchAddress,esi,sub_005E7310_A18,0x005E7310,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_005E7310_A19,0x005E7310,1
+    and edi,eax
     
     stdcall PatchAddress,esi,0x004E3720,SaveTimer,0
     and edi,eax
@@ -576,6 +590,11 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchAddress,esi,sub_00620886_3,0x00620886,1
     and edi,eax
     
+    stdcall PatchAddress,esi,sub_005507E0_3,0x005507E0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004E2F89_9,0x004E2F89,1
+    and edi,eax
+    
     stdcall PatchAddress,esi,0x004E4838,LoadTimer,0
     and edi,eax
     stdcall PatchAddress,esi,sub_0054DE40,0x0054DE40,1
@@ -605,6 +624,15 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchAddress,esi,sub_004380B0,0x004380B0,1
     and edi,eax
     
+    stdcall PatchAddress,esi,sub_00550920_6,0x00550920,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_005509E0_6,0x005509E0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004380B0_4,0x004380B0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004E47E4_6,0x004E47E4,1
+    and edi,eax
+    
     stdcall PatchCodeCave,esi,0x004EE0D2,DropDownBoxWidth,6
     and edi,eax
     
@@ -619,6 +647,8 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchAddress,esi,loc_004EE0EA_1,0x004EE0EA,1
     and edi,eax
     stdcall PatchAddress,esi,loc_004EE0E3_2,0x004EE0E3,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004EE0E3_3,0x004EE0E3,1
     and edi,eax
     
     stdcall PatchCodeCave,esi,0x004EEB2B,DropDownBoxInit,6
@@ -699,7 +729,14 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,loc_004EEB80_4,0x004EEB80,1
     and edi,eax
-    
+    stdcall PatchAddress,esi,sub_00550870_20,0x00550870,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00550870_21,0x00550870,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00550870_22,0x00550870,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_004EEB80_5,0x004EEB80,1
+    and edi,eax
     
     stdcall PatchCodeCave,esi,0x004E2C91,SaveNumber,6
     and edi,eax
@@ -889,6 +926,7 @@ EffectAlloc:
     mov [edx+01h],cl
     mov [edx+07h],cl
     mov [edx+16h],cl
+    mov [edx+0Ch],al
     
     .ResourceStorage:
     mov edx,[esi+0Ch]
@@ -899,6 +937,7 @@ EffectAlloc:
     mov [edx+10h],eax
     mov [edx+14h],ax
     mov [edx+16h],cl
+    mov [edx+0Ch],al
     
     .ChangeLoS:
     mov edx,[esi+0Ch]
@@ -1366,12 +1405,36 @@ ChangeResource:
     cmp ecx,ebx
     ja .back
     
+    mov ebx,[edi+3Ch]
+    cmp ebx,0
+    jle .add
+    cmp ebx,1
+    je .set
+    cmp ebx,2
+    jne .back
+    
+    .mul:
+    mov eax,[eax+0A8h]
+    fild dword[edi+10h]
+    fld dword[eax+ecx*4]
+    fmul st,st1
+    fstp dword[eax+ecx*4]
+    fstp st
+    jmp .back
+    
+    .add:
     mov eax,[eax+0A8h]
     fild dword[edi+10h]
     fld dword[eax+ecx*4]
     fadd st,st1
     fstp dword[eax+ecx*4]
     fstp st
+    jmp .back
+    
+    .set:
+    mov eax,[eax+0A8h]
+    fild dword[edi+10h]
+    fstp dword[eax+ecx*4]
     
     .back:
     jmp ChangeRoF.back
@@ -1394,16 +1457,38 @@ ResourceStorage:
     jb .next
 
     lea eax,[esi+44h]
-    lea ecx,[esi+4Ch]
     
     .apply:
     fild dword[edi+10h]
+    mov ecx,[edi+3Ch]
+    cmp ecx,0
+    jle .add
+    cmp ecx,1
+    je .set
+    cmp ecx,2
+    je .mul
+    
+    .add:
     fld dword[eax]
     fadd st,st1
     fstp dword[eax]
     fstp st
+    jmp .res
+    
+    .set:
+    fstp dword[eax]
+    jmp .res
+    
+    .mul:
+    fld dword[eax]
+    fmul st,st1
+    fstp dword[eax]
+    fstp st
+    
+    .res:
     cmp bx,0
     jl .next
+    lea ecx,[esi+4Ch]
     mov word[ecx],bx
     
     .next:         ; loc_7DD690
@@ -3450,6 +3535,32 @@ AllocateNewControls:
     test eax,eax
     je near $
     loc_004EB3A6_0B = $-4
+    mov ecx,[esi+918h]
+    mov edi,ResModeDdbPtr
+    push edi
+    push ecx
+    mov ecx,esi
+    call near $
+    sub_004EDED0_5 = $-4
+    test eax,eax
+    je near $
+    loc_004EB3A6_0C = $-4
+    mov ecx,[edi]
+    push -1
+    push 3151
+    call near $
+    sub_00562D10_A8 = $-4
+    mov eax,[esi+918h]
+    mov edx,ResModeLblPtr
+    push 10787
+    push edx
+    push eax
+    mov ecx,esi
+    call near $
+    sub_004EDDD0_0A = $-4
+    test eax,eax
+    je near $
+    loc_004EB3A6_0D = $-4
     
     .back:
     mov ecx,[ebp]
@@ -3577,6 +3688,20 @@ InitializeNewControls:
     push 0E6h
     mov edx,[ecx]
     call dword[edx+1Ch]
+    mov ecx,[ResModeLblPtr]
+    push 14h
+    push 96h
+    push 66h
+    mov edx,[ecx]
+    push 518
+    call dword[edx+1Ch]
+    mov ecx,[ResModeDdbPtr]
+    push 14h
+    push 5Ah
+    push 7Ah
+    mov edx, [ecx]
+    push 518
+    call dword[edx+1Ch]
     
     .back:
     mov ecx,[esi+0E50h]
@@ -3649,6 +3774,14 @@ HideNewControls:
     mov eax,[ecx]
     call dword[eax+14h]
     mov ecx,[ValModeDdbPtr]
+    push 0
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[ResModeLblPtr]
+    push 0
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[ResModeDdbPtr]
     push 0
     mov eax,[ecx]
     call dword[eax+14h]
@@ -3739,11 +3872,21 @@ DeallocateNewControls:
     mov ecx,esi
     call near $
     sub_005E7310_A16 = $-4
-    mov eax,ValModeLblPtr
+    mov eax,ValModeDdbPtr
     push eax
     mov ecx,esi
     call near $
     sub_005E7310_A17 = $-4
+    mov eax,ResModeDdbPtr
+    push eax
+    mov ecx,esi
+    call near $
+    sub_005E7310_A18 = $-4
+    mov eax,ResModeLblPtr
+    push eax
+    mov ecx,esi
+    call near $
+    sub_005E7310_A19 = $-4
     
     .back:
     lea eax,[esi+0E64h]
@@ -3755,6 +3898,10 @@ SaveTimer:
     je .drop_down_box
     cmp dword[esp+14h],57
     je .min_val
+    cmp dword[esp+14h],39
+    je .res_mode
+    cmp dword[esp+14h],40
+    je .res_mode
     mov ecx, [esi+0DF8h] ; jumptable 004E2B2C case 12
     push 1
     mov eax, [ecx]
@@ -3805,6 +3952,30 @@ SaveTimer:
     jmp near $
     loc_004E2F89_1 = $-4
     
+    .res_mode:
+    mov ecx,[ResModeLblPtr]
+    push 1
+    mov eax,[ecx]
+    call dword[eax+14h]
+    mov ecx,[ResModeDdbPtr]
+    push 1
+    mov edx,[ecx]
+    call dword[edx+14h]
+    mov eax,[esp+10h]
+    cmp eax,ebp
+    jge .set_ddb
+    
+    .fix_value:
+    mov eax,0
+    
+    .set_ddb:
+    mov ecx,[ResModeDdbPtr]
+    push eax
+    call near $
+    sub_005507E0_3 = $-4
+    jmp near $
+    loc_004E2F89_9 = $-4
+    
     .min_val:
     mov ecx,[MinValLblPtr]
     push 1
@@ -3848,6 +4019,13 @@ SaveTimer:
     mov edx,[ecx]
     call dword[edx+14h]
     mov eax,[esp+10h]
+    cmp eax,ebp
+    jge .set_ddb2
+    
+    .fix_value2:
+    mov eax,0
+    
+    .set_ddb2:
     mov ecx,[VarModeDdbPtr]
     push eax
     call near $
@@ -3860,6 +4038,10 @@ LoadTimer:
     je .drop_down_box
     cmp dword[esp+18h],57
     je .min_val
+    cmp dword[esp+18h],39
+    je .res_mode
+    cmp dword[esp+18h],40
+    je .res_mode
     mov ecx, [ebp+0DFCh] ; jumptable 004E42B3 case 12
     mov byte[esp+20h], 0
     call near $
@@ -3875,6 +4057,22 @@ LoadTimer:
     loc_004380B0_2 = $-4
     jmp near $
     loc_004E47E4 = $-4
+    
+    .res_mode:
+    mov ecx,[ResModeDdbPtr]
+    call near $
+    sub_00550920_6 = $-4
+    mov ecx,[ResModeDdbPtr]
+    push eax
+    call near $
+    sub_005509E0_6 = $-4
+    mov ecx,ebx
+    push eax
+    push 0Ch
+    call near $
+    loc_004380B0_4 = $-4
+    jmp near $
+    loc_004E47E4_6 = $-4
     
     .drop_down_box:
     mov ecx,[VarModeDdbPtr]
@@ -3940,6 +4138,10 @@ DropDownBoxWidth:
     cmp esi,ecx
     je near $
     loc_004EE0E3_2 = $-4
+    mov ecx,ResModeDdbPtr
+    cmp esi,ecx
+    je near $
+    loc_004EE0E3_3 = $-4
     mov ecx,VarResModeDdbPtr
     cmp esi,ecx
     je near $
@@ -4128,7 +4330,7 @@ DropDownBoxInit:
     .next3:
     mov ebp,ValModeDdbPtr
     cmp esi,ebp
-    jne .back
+    jne .next4
     mov ecx,[ebp]
     push 0
     push 3148
@@ -4146,6 +4348,28 @@ DropDownBoxInit:
     sub_00550870_1F = $-4
     jmp near $
     loc_004EEB80_4 = $-4
+    
+    .next4:
+    mov ebp,ResModeDdbPtr
+    cmp esi,ebp
+    jne .back
+    mov ecx,[ebp]
+    push 0
+    push 10789
+    call near $
+    sub_00550870_20 = $-4
+    mov ecx,[ebp]
+    push 1
+    push 10788
+    call near $
+    sub_00550870_21 = $-4
+    mov ecx,[ebp]
+    push 2
+    push 10790
+    call near $
+    sub_00550870_22 = $-4
+    jmp near $
+    loc_004EEB80_5 = $-4
     
     .back:
     lea ebp,[edi+0EC0h]
@@ -4729,6 +4953,8 @@ MaxValLblPtr                        dd 0
 MaxValTxtPtr                        dd 0
 ValModeDdbPtr                       dd 0
 ValModeLblPtr                       dd 0
+ResModeLblPtr                       dd 0
+ResModeDdbPtr                       dd 0
 
 FileVarNumber rb 2
 FileVer rb 4
