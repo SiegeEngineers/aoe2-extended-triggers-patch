@@ -857,6 +857,10 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,sub_00542AA0_2,0x00542AA0,1
     and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_3,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_4,0x00542AA0,1
+    and edi,eax
     stdcall PatchAddress,esi,loc_007DA9AF,0x007DA9AF,1
     and edi,eax
     
@@ -864,7 +868,51 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,sub_00542850_2,0x00542850,1
     and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_3,0x00542850,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_4,0x00542850,1
+    and edi,eax
     stdcall PatchAddress,esi,loc_007DAA01,0x007DAA01,1
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x007DA8AE,SaveType70Attr,5
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_5,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_6,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_7,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_8,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DA8B3,0x007DA8B3,1
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x007DA92E,LoadType70Attr,5
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_5,0x00542850,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_6,0x00542850,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_7,0x00542850,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DA933,0x007DA933,1
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x007DA80C,SaveType80Attr,5
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_9,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_A,0x00542AA0,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DA811,0x007DA811,1
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x007DA863,LoadType80Attr,5
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_8,0x00542850,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DA868,0x007DA868,1
     and edi,eax
     
     ;--- END SAVING EXTRA ATTRIBUTES TO SAVEGAMES ---
@@ -4737,6 +4785,20 @@ SaveType10Attr: ;007DA9AA
     call near $
     sub_00542AA0_2 = $-4
     add esp,0Ch
+    lea ecx,[esi+0ACh]
+    push 4
+    push ecx
+    push edi
+    call near $
+    sub_00542AA0_3 = $-4
+    add esp,0Ch
+    lea ecx,[esi+90h]
+    push 3
+    push ecx
+    push edi
+    call near $
+    sub_00542AA0_4 = $-4
+    add esp,0Ch
     jmp near $
     loc_007DA9AF = $-4
 
@@ -4748,10 +4810,115 @@ LoadType10Attr: ;007DA9FC
     call near $
     sub_00542850_2 = $-4
     add esp,0Ch
+    lea ecx,[esi+0ACh]
+    push 4
+    push ecx
+    push ebp
+    call near $
+    sub_00542850_3 = $-4
+    add esp,0Ch
+    lea ecx,[esi+90h]
+    push 3
+    push ecx
+    push ebp
+    call near $
+    sub_00542850_4 = $-4
+    add esp,0Ch
     lea ecx,[esi+50h]
     push 2
     jmp near $
     loc_007DAA01 = $-4
+    
+SaveType70Attr: ;007DA8AE
+    call near $
+    sub_00542AA0_5 = $-4
+    lea ecx,[ebx+1B0h]
+    push 5
+    push ecx
+    push edi
+    call near $
+    sub_00542AA0_6 = $-4
+    add esp,0Ch
+    lea ecx,[ebx+10Ch]
+    push 4
+    push ecx
+    push edi
+    call near $
+    sub_00542AA0_7 = $-4
+    add esp,0Ch
+    lea ecx,[ebx+110h]
+    push 1
+    push ecx
+    push edi
+    call near $
+    sub_00542AA0_8 = $-4
+    add esp,0Ch
+    jmp near $
+    loc_007DA8B3 = $-4
+    
+LoadType70Attr: ;007DA92E
+    lea ecx,[esi+1B0h]
+    push 5
+    push ecx
+    push ebx
+    call near $
+    sub_00542850_5 = $-4
+    add esp,0Ch
+    lea ecx,[esi+10Ch]
+    push 4
+    push ecx
+    push ebx
+    call near $
+    sub_00542850_6 = $-4
+    add esp,0Ch
+    lea ecx,[esi+110h]
+    push 1
+    push ecx
+    push ebx
+    call near $
+    sub_00542850_7 = $-4
+    add esp,0Ch
+
+    .back:
+    lea ecx,[edi+6]
+    push 2
+    jmp near $
+    loc_007DA933 = $-4
+    
+SaveType80Attr: ;007DA80C
+    call near $
+    sub_00542AA0_9 = $-4
+    push ebx
+    mov ebx,esi
+    sub ebx,1CAh
+    lea ecx,[ebx+1D4h]
+    push 2
+    push ecx
+    push ebx
+    call near $
+    sub_00542AA0_A = $-4
+    add esp,0Ch
+    pop ebx
+    jmp near $
+    loc_007DA811 = $-4
+    
+LoadType80Attr: ;007DA863
+    push ebx
+    mov ebx,esi
+    sub ebx,1CAh
+    lea ecx,[ebx+1D4h]
+    push 2
+    push ecx
+    push ebx
+    call near $
+    sub_00542850_8 = $-4
+    add esp,0Ch
+    pop ebx
+    .back:
+    add esi,3Eh
+    push 1
+    jmp near $
+    loc_007DA868 = $-4
     
 load_str:
     
