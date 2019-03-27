@@ -917,6 +917,16 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     
     ;--- END SAVING EXTRA ATTRIBUTES TO SAVEGAMES ---
     
+    ;--- ALLOWING TECHS TO CHANGE EXTRA ATTRIBUTES ---
+
+    stdcall PatchAddress,esi,0x007DAA66,EyeCandyAttrJmp,0
+    and edi,eax
+    
+    stdcall PatchData,esi,0x007DAA51,TechAttr0,sizeof.TechAttr0
+    and edi,eax
+    
+    ;--- END ALLOWING TECHS TO CHANGE EXTRA ATTRIBUTES ---
+    
     mov    eax,edi
     pop    edi esi
     
@@ -4937,7 +4947,56 @@ load_str:
     jmp near $
     loc_0043CF51 = $-4
     
-     
+EyeCandyAttrJmp: ;007DAA63+3 ;007DAA4F+2
+    dd 0x007DAA6A
+    dd 0x007DAA70
+    dd 0x007DAA76
+    dd 0x007DAA7E
+    dd 0x007DAA84
+    dd 0x007DAA8C
+    dd 0x007DAA94
+    dd 0x007DAA9D
+    dd SetAttribute.Icon
+    dd SetAttribute.ResMode
+    dd SetAttribute.LangHotkey
+    
+SetAttribute: 
+    .Icon:
+    mov  [esi+54h],ax
+    pop esi
+    retn 8
+    
+    .ResMode:
+    push edi
+    mov edx,eax
+    shr edx,6
+    and eax,3Fh
+    lea edi,[esi+72h]
+    xor ecx,ecx
+    
+    .loop:
+    cmp word[edi],dx
+    je .apply
+    add edi,2
+    inc ecx
+    cmp ecx,3
+    jl .loop
+    jmp .back
+    
+    .apply:
+    lea edi,[esi+ecx+90h]
+    mov byte[edi],al
+    
+    .back:
+    pop edi
+    pop esi
+    retn 8
+    
+    .LangHotkey:
+    mov  [esi+0ACh],eax
+    pop esi
+    retn 8
+    
 ;--------------------------------------------------
 
 proc memcpy c destination,source,num
@@ -5079,6 +5138,8 @@ NewTriggers1d                        db 0x1E
 NewTriggers1e                        db 0x78
 NewTriggers1k                        db 0x70,0xD4
 NewTriggers1f                        db 0x8B,0x8F,0xEC,0x0D,0x00,0x00
+
+TechAttr0                            db 0x3C
 
 SaveGameExtPatch0                         db '.gpz',0
 SaveGameExtPatch1                         db '.mpz',0
