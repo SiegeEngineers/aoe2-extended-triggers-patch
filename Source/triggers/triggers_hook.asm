@@ -925,6 +925,16 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchData,esi,0x007DAA51,TechAttr0,sizeof.TechAttr0
     and edi,eax
     
+    stdcall PatchCodeCave,esi,0x007DAB10,CreatableAttr,6
+    and edi,eax
+    
+    stdcall PatchAddress,esi,loc_007DAB1D,0x007DAB1D,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_006139E4_5,0x006139E4,1
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DAB16,0x007DAB16,1
+    and edi,eax
+    
     ;--- END ALLOWING TECHS TO CHANGE EXTRA ATTRIBUTES ---
     
     mov    eax,edi
@@ -4960,6 +4970,35 @@ EyeCandyAttrJmp: ;007DAA63+3 ;007DAA4F+2
     dd SetAttribute.ResMode
     dd SetAttribute.LangHotkey
     
+CreatableAttr: ;007DAB10
+    cmp ecx,61
+    jb .back
+    cmp ecx,65
+    jg near $
+    loc_007DAB1D = $-4
+    
+    .apply_attr:
+    lea edi,[ecx-3Dh]
+    fld dword[esp+0Ch]
+    call near $
+    sub_006139E4_5 = $-4
+    mov edx,edi
+    pop edi
+    jmp dword[CreatableAttrJmp+edx*4]
+    
+    .back:
+    lea edi,[ecx-28h]
+    cmp ecx,28h
+    jmp near $
+    loc_007DAB16 = $-4
+    
+CreatableAttrJmp:
+    dd SetAttribute.ChargingGraphic
+    dd SetAttribute.ChargingMode
+    dd SetAttribute.DropSite1
+    dd SetAttribute.DropSite2
+    dd SetAttribute.VillagerMode
+    
 SetAttribute: 
     .Icon:
     mov  [esi+54h],ax
@@ -4994,6 +5033,31 @@ SetAttribute:
     
     .LangHotkey:
     mov  [esi+0ACh],eax
+    pop esi
+    retn 8
+    
+    .ChargingGraphic:
+    mov [esi+1B0h],eax
+    pop esi
+    retn 8
+    
+    .ChargingMode:
+    mov [esi+1B4h],al
+    pop esi
+    retn 8
+    
+    .DropSite1:
+    mov [esi+10Ch],ax
+    pop esi
+    retn 8
+    
+    .DropSite2:
+    mov [esi+10Eh],ax
+    pop esi
+    retn 8
+    
+    .VillagerMode:
+    mov [esi+110h],al
     pop esi
     retn 8
     
