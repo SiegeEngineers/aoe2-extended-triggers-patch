@@ -148,4 +148,5 @@ BEGIN
   57641 "Randomize Variable"
   57642 "Pick Random Value"
   57643 "Save Value to Variable"
+  57644 "Create Object by Variable"
 END

@@ -1175,6 +1175,12 @@ EffectAlloc:
     mov [edx+16h],cl
     mov [edx+01h],cl
     
+    .CreateUnitByVariable:
+    mov edx,[esi+0Ch]
+    mov edx,[edx+0F0h]
+    mov [edx+07h],cl
+    mov [edx+16h],cl
+    
     .back:
     jmp near $
     loc_007D8DC0 = $-4
@@ -1240,6 +1246,7 @@ EffectJmpTable:
     dd RandomizeVariable
     dd PickRandomValue
     dd SaveValueToVariable
+    dd CreateUnitByVariable
 
 ChangeRoF:
 
@@ -2657,8 +2664,8 @@ SaveValueToVariable:
     .tile_coord:
     mov eax,[edi+44h]
     mov ecx,[edi+48h]
-    imul ecx,256
-    add ecx,eax
+    shl ecx,16
+    or ecx,eax
     mov edx,Vars
     mov [edx+ebx*4],ecx
     jmp .back
@@ -2686,6 +2693,91 @@ SaveValueToVariable:
     pop ebx
     add esp,2034h
     retn 4   
+
+CreateUnitByVariable:
+    mov ecx,[edi+64h]
+    mov eax,ecx
+    inc eax
+    cmp eax,255
+    jg .back
+    mov edx,Vars
+    mov esi,[edx+eax*4]
+    mov ecx,[edx+ecx*4]
+    mov eax,esi
+    shr esi,16 ;+48h
+    and eax,65535 ;+44h
+    mov [esp+14h],eax
+    mov [esp+1Ch],esi
+    fild dword[esp+14h]
+    fstp dword[esp+14h]
+    fild dword[esp+1Ch]
+    fstp dword[esp+1Ch]
+    mov eax,[esp+18h]
+    mov edx,[eax+74h]
+    mov ecx,[edx+ecx*4]
+    cmp ecx,ebx
+    jz .back
+    mov ebp,[ecx+34h]
+    mov esi,3F800000h
+    cmp ebp,esi
+    mov edx,40000000h
+    jz .check_size2
+    cmp ebp, edx
+    jz .check_size2
+    fld dword[esp+14h]
+    fadd dword[00635978h]
+    fstp dword[esp+14h]
+
+    .check_size2:
+    mov ebp, [ecx+38h]
+    cmp ebp, esi
+    jz .create_unit
+    mov esi, ebp
+    cmp esi, edx
+    jz .create_unit
+    fld dword[esp+1Ch]
+    fadd dword[00635978h]
+    fstp dword[esp+1Ch]
+
+    .create_unit:
+    mov esi, [esp+1Ch]
+    push ebx
+    mov ebp, [esp+18h]
+    push ebx
+    mov edx, [ecx]
+    push 1
+    push 1
+    push ebx
+    push ebx
+    push 1
+    push ebx
+    push ebx
+    push esi
+    push ebp
+    push eax
+    call dword[edx+24h]
+    test al, al
+    jnz .back
+    mov ecx, [esp+18h]
+    mov edx, [edi+64h]
+    mov eax,Vars
+    mov edx,[eax+edx*4]
+    push 1
+    push ebx
+    mov eax, [ecx]
+    push esi
+    push ebp
+    push edx
+    call dword[eax+0ACh]
+    
+    .back:
+    pop edi
+    pop esi
+    pop ebp
+    mov al, 1
+    pop ebx
+    add esp, 2034h
+    retn 4
     
 CondAlloc:
 
@@ -5243,11 +5335,11 @@ TrigBetaFields0f                        db 0xEB
 TrigBetaFields0g                        db 0xEB
 
 NewTriggers0                         db 0x00,0x00,0x00,0x00
-NewTriggers0a                        db 0xF0 ; Allocated Memory for Effect Panels
-NewTriggers0b                        db 0x3B ; Max Effect ID
+NewTriggers0a                        db 0xF4 ; Allocated Memory for Effect Panels
+NewTriggers0b                        db 0x3C ; Max Effect ID
 NewTriggers0c                        db 0x00,0x00,0x00,0x00
-NewTriggers0d                        db 0x3C ; Effect String Amount
-NewTriggers0e                        db 0xF0 ; Allocated Memory for Effect Panels
+NewTriggers0d                        db 0x3D ; Effect String Amount
+NewTriggers0e                        db 0xF4 ; Allocated Memory for Effect Panels
 NewTriggers0f                        db 0x05
 NewTriggers0g                        db 0xF0,0xE0
 
