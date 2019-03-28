@@ -905,12 +905,16 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     and edi,eax
     stdcall PatchAddress,esi,sub_00542AA0_A,0x00542AA0,1
     and edi,eax
+    stdcall PatchAddress,esi,sub_00542AA0_B,0x00542AA0,1
+    and edi,eax
     stdcall PatchAddress,esi,loc_007DA811,0x007DA811,1
     and edi,eax
     
     stdcall PatchCodeCave,esi,0x007DA863,LoadType80Attr,5
     and edi,eax
     stdcall PatchAddress,esi,sub_00542850_8,0x00542850,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_00542850_9,0x00542850,1
     and edi,eax
     stdcall PatchAddress,esi,loc_007DA868,0x007DA868,1
     and edi,eax
@@ -933,6 +937,13 @@ proc __Z4InitP11HINSTANCE__@4 hinstDLL
     stdcall PatchAddress,esi,sub_006139E4_5,0x006139E4,1
     and edi,eax
     stdcall PatchAddress,esi,loc_007DAB16,0x007DAB16,1
+    and edi,eax
+    
+    stdcall PatchCodeCave,esi,0x004642AF,BuildingAttribute,5
+    and edi,eax
+    stdcall PatchAddress,esi,loc_007DAC90,0x007DAC90,1
+    and edi,eax
+    stdcall PatchAddress,esi,sub_006139E4_6,0x006139E4,1
     and edi,eax
     
     ;--- END ALLOWING TECHS TO CHANGE EXTRA ATTRIBUTES ---
@@ -4914,9 +4925,16 @@ SaveType80Attr: ;007DA80C
     lea ecx,[ebx+1D4h]
     push 2
     push ecx
-    push ebx
+    push edi
     call near $
     sub_00542AA0_A = $-4
+    add esp,0Ch
+    lea ecx,[ebx+202h]
+    push 2
+    push ecx
+    push edi
+    call near $
+    sub_00542AA0_B = $-4
     add esp,0Ch
     pop ebx
     jmp near $
@@ -4929,9 +4947,16 @@ LoadType80Attr: ;007DA863
     lea ecx,[ebx+1D4h]
     push 2
     push ecx
-    push ebx
+    push edi
     call near $
     sub_00542850_8 = $-4
+    add esp,0Ch
+    lea ecx,[ebx+202h]
+    push 2
+    push ecx
+    push edi
+    call near $
+    sub_00542850_9 = $-4
     add esp,0Ch
     pop ebx
     .back:
@@ -4999,6 +5024,27 @@ CreatableAttrJmp:
     dd SetAttribute.DropSite2
     dd SetAttribute.VillagerMode
     
+BuildingAttribute: ;004642AF
+    cmp al,66
+    je .new_attributes
+    cmp al,67
+    jne near $
+    loc_007DAC90 = $-4
+    
+    .new_attributes:
+    push edi
+    lea edi,[eax-42h]
+    fld dword[esp+0Ch]
+    call near $
+    sub_006139E4_6 = $-4
+    mov edx,edi
+    pop edi
+    jmp dword[BuildingAttrJmp+edx*4]
+    
+BuildingAttrJmp:
+    dd SetAttribute.InitiatesResearch
+    dd SetAttribute.TransformUnit
+    
 SetAttribute: 
     .Icon:
     mov  [esi+54h],ax
@@ -5058,6 +5104,16 @@ SetAttribute:
     
     .VillagerMode:
     mov [esi+110h],al
+    pop esi
+    retn 8
+    
+    .InitiatesResearch:
+    mov [esi+1D4h],ax
+    pop esi
+    retn 8
+    
+    .TransformUnit:
+    mov [esi+202h],ax
     pop esi
     retn 8
     
