@@ -1,17 +1,17 @@
 1 VERSIONINFO
-FILEVERSION     1,6,0,0
-PRODUCTVERSION  2019,3,21,0
+FILEVERSION     1,7,0,0
+PRODUCTVERSION  2019,3,29,0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
     BLOCK "040904E4"
     BEGIN
       VALUE "FileDescription", "Extended Triggers Patch Main Library"
-      VALUE "FileVersion", "1.6"
+      VALUE "FileVersion", "1.7"
       VALUE "InternalName", "triggers"
       VALUE "OriginalFilename", "TRIGGERS.DLL"
       VALUE "ProductName", "Extended Triggers Patch"
-      VALUE "ProductVersion", "2019.03.21"
+      VALUE "ProductVersion", "2019.03.29"
     END
   END
 

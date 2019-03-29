@@ -4,7 +4,7 @@
 
 1 VERSIONINFO
 FILEVERSION     1,0,0,0
-PRODUCTVERSION  1,6,0,0
+PRODUCTVERSION  1,7,0,0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -15,7 +15,7 @@ BEGIN
       VALUE "InternalName", "patcher"
       VALUE "OriginalFilename", "PATCHER.EXE"
       VALUE "ProductName", "Extended Triggers Patch"
-      VALUE "ProductVersion", "1.6"
+      VALUE "ProductVersion", "1.7"
     END
   END
 

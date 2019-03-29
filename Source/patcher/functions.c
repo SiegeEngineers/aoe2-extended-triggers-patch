@@ -22,7 +22,7 @@ char const patchData[PATCH_AMOUNT][54] = { { 0xE8, 0x78, 0x02, 0x00, 0x00, 0x90,
                                          { 0x61, 0x67, 0x65, 0x32, 0x5F, 0x78, 0x31, 0x5C, 0x74, 0x72, 
                                            0x69, 0x67, 0x67, 0x65, 0x72, 0x73, 0x2E, 0x64, 0x6C, 0x6C, 
                                            0x00 },
-                                         { 0x36 }
+                                         { 0x37 }
                                        };
 
 bool patchExe(char *inputName, char *outputName) {
@@ -347,7 +347,7 @@ bool getStrFromInput(char *str, int length) {
 void printHeader() {
     printf("----------------------------------\n");
     printf("    Extended Triggers Patch\n");
-    printf("    Version 1.6\n");
+    printf("    Version 1.7\n");
     printf("----------------------------------\n\n");
 }
 

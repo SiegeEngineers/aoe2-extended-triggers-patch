@@ -16,7 +16,9 @@ void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWOR
     bool varDetected = false;
     bool startReading = false;
     bool playerIDReadStarted = false;
+    bool yearCtdwnStartReadStarted = false;
     int resPlayerID = -1;
+    int yearCtdwnStart = -1;
 
     while (src[srcPos] && destPos < 256) {
         switch (src[srcPos]) {
@@ -126,8 +128,20 @@ void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWOR
                             resPlayerID = readBuffer(tmpBuffer, varPointer);
                             tmpBuffer[0] = '\0';
                             bufferPos = 0;
+                            playerIDReadStarted = false;
                         }
-
+                    }
+                    else if (currentType == GAME_TIME_YEARS) {
+                        if (!yearCtdwnStartReadStarted) {
+                            yearCtdwnStartReadStarted = true;
+                        }
+                        else {
+                            tmpBuffer[bufferPos] = '\0';
+                            yearCtdwnStart = readBuffer(tmpBuffer, varPointer);
+                            tmpBuffer[0] = '\0';
+                            bufferPos = 0;
+                            yearCtdwnStartReadStarted = false;
+                        }
                     }
                 }
                 else {
@@ -271,9 +285,9 @@ void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWOR
                         BYTE* gameInfoPtr = (BYTE*)*(DWORD*)((DWORD)masterPointer + 0x424);
                         float gameTime = ((float)*(DWORD*)(gameInfoPtr + 0x10)) / 1000;
 
-                        int countdownStart = readBuffer(tmpBuffer, varPointer);
+                        int yearCtdwnEnd = readBuffer(tmpBuffer, varPointer);
 
-                        int displayedTime = (countdownStart > 0)?(countdownStart - (int)(gameTime / 5)):((int)(gameTime / 5));
+                        int displayedTime = (yearCtdwnEnd > 0)?(yearCtdwnEnd - ((int)(gameTime / 5) - yearCtdwnStart)):((int)(gameTime / 5) - yearCtdwnStart);
                         
                         StringCchPrintfA(&dest[destPos], 256 - destPos, "%d", displayedTime);
 
