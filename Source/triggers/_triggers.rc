@@ -1,6 +1,6 @@
 1 VERSIONINFO
 FILEVERSION     1,7,0,0
-PRODUCTVERSION  2019,3,29,0
+PRODUCTVERSION  2019,4,4,0
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
@@ -11,7 +11,7 @@ BEGIN
       VALUE "InternalName", "triggers"
       VALUE "OriginalFilename", "TRIGGERS.DLL"
       VALUE "ProductName", "Extended Triggers Patch"
-      VALUE "ProductVersion", "2019.03.29"
+      VALUE "ProductVersion", "2019.04.04"
     END
   END
 
