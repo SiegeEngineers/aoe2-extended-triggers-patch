@@ -230,10 +230,26 @@ void __cdecl stringParser(const char* src, char* dest, void* masterPointer, DWOR
 
                         if (playerID > 0 && playerID <= (int)playerAmount) {
                             BYTE** playerPtrArray = *(BYTE***)((DWORD)playerInfoPtr + 0x4C);
-                            BYTE civID = *(playerPtrArray[playerID] + 0x15D);
+                            BYTE* upData = (BYTE*)*(BYTE**)(playerPtrArray[playerID] + 0x12A0);
+                            WORD customCivStringID = *(WORD*)(upData + 0x60);
+                            
+                            if (customCivStringID <= 0) {
+                                BYTE civID = *(playerPtrArray[playerID] + 0x15D);
 
-                            char*(__thiscall* getStringIDFromAction)(void* masterPointer, DWORD actionID, DWORD subActionID, DWORD resourceID, char* destBuffer, DWORD destBufferSize) = reinterpret_cast<char*(__thiscall*)(void*, DWORD, DWORD, DWORD, char*, DWORD)>(0x0043CF60);
-                            getStringIDFromAction(masterPointer, 0x69, (DWORD)civID, 0, &dest[destPos], 256 - destPos);
+                                char*(__thiscall* getStringIDFromAction)(void* masterPointer, DWORD actionID, DWORD subActionID, DWORD resourceID, char* destBuffer, DWORD destBufferSize) = reinterpret_cast<char*(__thiscall*)(void*, DWORD, DWORD, DWORD, char*, DWORD)>(0x0043CF60);
+                                getStringIDFromAction(masterPointer, 0x69, (DWORD)civID, 0, &dest[destPos], 256 - destPos);
+                            }
+                            else {
+                                char*(__thiscall* getStringFromID)(void* masterPointer, DWORD stringID) = reinterpret_cast<char*(__thiscall*)(void*, DWORD)>(*(DWORD*)(*(DWORD*)masterPointer + 0x24));
+                                char* langString = getStringFromID(masterPointer, (DWORD) customCivStringID);
+                        
+                                int i = 0;
+
+                                if (langString != NULL) {
+                                    while (langString[i] && destPos < 256)
+                                        dest[destPos++] = langString[i++];
+                                }
+                            }
 
                             while (dest[destPos] && destPos < 256)
                                 destPos++;
